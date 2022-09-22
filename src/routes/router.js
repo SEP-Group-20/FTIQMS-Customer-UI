@@ -14,10 +14,10 @@ export function Router(){
     <BrowserRouter>
           <Routes>
               <Route path="/customerHome" element={<CustomerHome/>}/>
-              <Route exact path="register" element={<Register/>} />
-              <Route exact path='login' element={<Login/>} />
-              <Route exact path='contact' element={<RequireAuth><Contact/></RequireAuth>} />
-              <Route exact path='unauthorized' element={<Unauthorized/>} />
+              <Route exact path="/register" element={<Register/>} />
+              <Route exact path='/login' element={<Login/>} />
+              <Route exact path='/contact' element={<RequireAuth><Contact/></RequireAuth>} />
+              <Route exact path='/unauthorized' element={<Unauthorized/>} />
               <Route exact path='*' element={<NoPage/>} />
           </Routes>
         </BrowserRouter>
