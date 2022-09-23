@@ -1,12 +1,10 @@
 import * as React from "react";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import Slide from "@mui/material/Slide";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -14,6 +12,11 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+
+const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
+const NAME_REGEX = /^[a-z ,.'-]+$/i;
+const MOBILE_REGEX =/^(?:(?:\+|0{0,2})91(\s*[\ -]\s*)?|[0]?)?[456789]\d{8}|(\d[ -]?){9}\d$/;
 
 function Copyright(props) {
   return (
@@ -36,24 +39,100 @@ function Copyright(props) {
 const theme = createTheme();
 
 function Register() {
+  const [NICStatus, setNICStatus] = React.useState(false);
+  const [NIC, setNIC] = React.useState("");
+  const [NICValidity, setNICValidity] = React.useState(true);
+
+  const [mobileStatus, setMobileStatus] = React.useState(false);
+  const [mobile, setMobile] = React.useState("");
+  const [mobileValidity, setMobileValidity] = React.useState(true);
+
+  const [OTP, setOTP] = React.useState("");
+  const [OTPStatus, setOTPStatus] = React.useState(false);
+
+  const [firstName,setFirstName] = React.useState("");
+  const [validFName,setValildFName] = React.useState(true);
+
+  const [lastName,setLastName] = React.useState("");
+  const [validLName,setValildLName] = React.useState(true);
+
+  const [pwd , setPwd] = React.useState("");
+  const [validPwd, setValidPwd] = React.useState(true);
+
+  const [cnfrm,setCnfrm ] = React.useState("");
+  const [validCnfrm,setValidCnfrm] = React.useState(true);
+
+  useEffect(() => {
+    const result = PWD_REGEX.test(pwd);
+    setValidPwd(result);
+    const match = pwd === cnfrm;
+    setValidCnfrm(match);
+  }, [pwd, cnfrm]);
+
+  useEffect(()=>{
+    const result = NAME_REGEX.test(firstName);
+    setValildFName(result);
+  },[firstName]);
+
+  useEffect(()=>{
+    const result = NAME_REGEX.test(lastName);
+    setValildLName(result);
+  },[lastName]);
+
   const [checked, setChecked] = React.useState(true);
 
   useEffect(() => {
     setChecked((prev) => !prev);
   }, []);
 
+  /*This handle submit funtion is called when submit button is hit */
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+
+    if (!NICStatus) {
+      //call the api here
+      setNICStatus(true);
+    } else if (!mobileStatus) {
+      //send the OTP here
+      setMobileStatus(true);
+    } else if (!OTPStatus) {
+      //validate the OTP here
+      setOTPStatus(true);
+    }else{
+      //api calls here
+      console.log("Finally! done");
+    }
   };
+
+  /*this funtion validates the NIC and returns
+  true if it is valid, returns false otherwise */
+  const validateNIC = (value) => {
+    if (value.length < 12) {
+      return false;
+    }
+    return true;
+  };
+
+  const validateMobile = (value) => {
+    return MOBILE_REGEX.test(value);
+  };
+
+  /*this function handles the changes of 
+  NIC input field */
+  const handleNICChange = (e) => {
+    setNIC(e.target.value);
+    setNICValidity(validateNIC(e.target.value));
+  };
+
+  const handleMobileChange = (e) => {
+    setMobile(e.target.value);
+    setMobileValidity(validateMobile(e.target.value));
+  };
+
+  
 
   return (
     <>
-      <button onClick={(e) => setChecked((prev) => !prev)}>Slide</button>
       <Slide
         direction={checked ? "up" : "down"}
         in={checked}
@@ -85,7 +164,7 @@ function Register() {
                   sx={{ mt: 3 }}
                 >
                   <Grid container spacing={2}>
-                    <Grid item xs={12}>
+                    <Grid item xs>
                       <TextField
                         required
                         fullWidth
@@ -93,15 +172,127 @@ function Register() {
                         label="NIC"
                         name="nic"
                         autoComplete="nic"
+                        disabled={NICStatus ? true : false}
+                        onChange={handleNICChange}
+                        error={!NICValidity ? true : false}
+                        autoFocus
                       />
                     </Grid>
-                    <Grid item xs={12}></Grid>
+                    {NICStatus ? (
+                      <Grid item xs={1}>
+                        <CheckCircleOutlineIcon />
+                      </Grid>
+                    ) : null}
+
+                    {NICStatus ? (
+                      <>
+                        <Grid item xs>
+                          <TextField
+                            required
+                            fullWidth
+                            id="mobile"
+                            type="tel"
+                            label="Mobile"
+                            name="mobile"
+                            autoComplete="mobile"
+                            autoFocus
+                            disabled={mobileStatus ? true : false}
+                            error={!mobileValidity ? true : false}
+                            onChange={handleMobileChange}
+                          />
+                        </Grid>
+                        {OTPStatus ? (
+                          <Grid item xs={1}>
+                            <CheckCircleOutlineIcon />
+                          </Grid>
+                        ) : null}
+                      </>
+                    ) : null}
+                    {mobileStatus && !OTPStatus ? (
+                      <>
+                        <Grid item xs={12}>
+                          <p>We send and verification code to your number</p>
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            required
+                            fullWidth
+                            id="otp"
+                            label="Verification Code"
+                            name="otp"
+                            autoFocus
+                            autoComplete="number"
+                            onChange={(e) => setOTP(e.target.value)}
+                          />
+                        </Grid>
+                      </>
+                    ) : null}
+                    {OTPStatus?(
+                    <Grid container mt={2} spacing={2}>
+                      <Grid item xs>
+                        <TextField
+                          required
+                          autoFocus
+                          fullWidth
+                          id="firstName"
+                          label="First Name"
+                          name="firstName"
+                          autoComplete="firstName"
+                          onChange={e=>setFirstName(e.target.value)}
+                          error={!validFName && firstName?true:false}
+                        />
+                      </Grid>
+                      <Grid item xs>
+                        <TextField
+                          required
+                          fullWidth
+                          id="lastName"
+                          label="Last Name"
+                          name="lastName"
+                          autoComplete="lastName"
+                          onChange={e=>setLastName(e.target.value)}
+                          error={!validLName && lastName?true:false}
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <TextField
+                          required
+                          fullWidth
+                          type="password"
+                          id="pwd"
+                          label="Password"
+                          name="password"
+                          autoComplete="password"
+                          onChange={e=>setPwd(e.target.value)}
+                          error={!validPwd && pwd?true:false}
+                        />
+                      </Grid>
+                      <Grid item xs={12}>
+                        <TextField
+                          required
+                          fullWidth
+                          type="password"
+                          id="cnfrm"
+                          label="Confirm Password"
+                          name="confirm"
+                          autoComplete="password"
+                          onChange={e=>setCnfrm(e.target.value)}
+                          error={!validCnfrm && cnfrm?true:false}
+                        />
+                      </Grid>
+                    </Grid>
+                    ):null}
                   </Grid>
                   <Button
                     type="submit"
                     fullWidth
                     variant="contained"
                     sx={{ mt: 3, mb: 2 }}
+                    disabled={(
+                      (!NICValidity || !NIC ) || 
+                      (NICStatus && (!mobileValidity || !mobile)) || 
+                      (mobileStatus && !OTP) ||
+                      (OTPStatus && (!firstName || !pwd || !cnfrm ||!validCnfrm || !validPwd || !validFName || (lastName && !validLName))))? true : false}
                   >
                     CONTINUE
                   </Button>
