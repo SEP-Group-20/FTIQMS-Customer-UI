@@ -2,12 +2,20 @@ import axios from './HttpsServices';
 
 const APIEndPoint = "http://localhost:3001/api/auth";
 
-const loginUser = (formData) => {
+const checkNICExistance = (formData) => {
     return axios({
         method: "post",
-        url: APIEndPoint + "/login",
+        url: APIEndPoint + "/checkNIC",
         data: formData,
     });
 };
 
-export {loginUser};
+const registerCustomer = (formData) => {
+    return axios({
+        method: "post",
+        url: APIEndPoint + "/register",
+        data: formData,
+    });
+};
+
+export {checkNICExistance,registerCustomer};
