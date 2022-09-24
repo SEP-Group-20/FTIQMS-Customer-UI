@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Slide from "@mui/material/Slide";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -13,10 +14,18 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import { Stack, Alert } from "@mui/material";
+import { authentication } from "../../../services/firebaseService";
 
-const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
+import { checkNICExistance } from "../../../services/AuthServices";
+import { registerCustomer } from "../../../services/AuthServices";
+import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+
+const PWD_REGEX =
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
 const NAME_REGEX = /^[a-z ,.'-]+$/i;
-const MOBILE_REGEX =/^(?:(?:\+|0{0,2})91(\s*[\ -]\s*)?|[0]?)?[456789]\d{8}|(\d[ -]?){9}\d$/;
+const MOBILE_REGEX =
+  /^(?:(?:\+|0{0,2})91(\s*[\ -]\s*)?|[0]?)?[456789]\d{8}|(\d[ -]?){8}\d$/;
 
 function Copyright(props) {
   return (
@@ -39,6 +48,9 @@ function Copyright(props) {
 const theme = createTheme();
 
 function Register() {
+
+  const navigate = useNavigate();
+
   const [NICStatus, setNICStatus] = React.useState(false);
   const [NIC, setNIC] = React.useState("");
   const [NICValidity, setNICValidity] = React.useState(true);
@@ -50,17 +62,42 @@ function Register() {
   const [OTP, setOTP] = React.useState("");
   const [OTPStatus, setOTPStatus] = React.useState(false);
 
-  const [firstName,setFirstName] = React.useState("");
-  const [validFName,setValildFName] = React.useState(true);
+  const [firstName, setFirstName] = React.useState("");
+  const [validFName, setValildFName] = React.useState(true);
 
-  const [lastName,setLastName] = React.useState("");
-  const [validLName,setValildLName] = React.useState(true);
+  const [lastName, setLastName] = React.useState("");
+  const [validLName, setValildLName] = React.useState(true);
 
-  const [pwd , setPwd] = React.useState("");
+  const [pwd, setPwd] = React.useState("");
   const [validPwd, setValidPwd] = React.useState(true);
 
-  const [cnfrm,setCnfrm ] = React.useState("");
-  const [validCnfrm,setValidCnfrm] = React.useState(true);
+  const [cnfrm, setCnfrm] = React.useState("");
+  const [validCnfrm, setValidCnfrm] = React.useState(true);
+
+  const [errMsg, setErrMsg] = React.useState("");
+
+  /*this functions configures invissible recapcha to 
+  verify that the account creater is a human*/
+  const configureRecapcha = () => {
+    console.log("recap-entered");
+    window.recaptchaVerifier = new RecaptchaVerifier(
+      "recapcha-container",
+      {
+        size: "invisible",
+        callback: (response) => {
+          // reCAPTCHA solved, allow signInWithPhoneNumber.
+          console.log("Recapcha verified!");
+        },
+      },
+      authentication
+    );
+  };
+  // To apply the default browser preference instead of explicitly setting it.
+  // firebase.auth().useDeviceLanguage();
+
+  useEffect(() => {
+    setErrMsg("");
+  }, [NIC, mobile, OTP, firstName, lastName, pwd, cnfrm]);
 
   useEffect(() => {
     const result = PWD_REGEX.test(pwd);
@@ -69,15 +106,15 @@ function Register() {
     setValidCnfrm(match);
   }, [pwd, cnfrm]);
 
-  useEffect(()=>{
+  useEffect(() => {
     const result = NAME_REGEX.test(firstName);
     setValildFName(result);
-  },[firstName]);
+  }, [firstName]);
 
-  useEffect(()=>{
+  useEffect(() => {
     const result = NAME_REGEX.test(lastName);
     setValildLName(result);
-  },[lastName]);
+  }, [lastName]);
 
   const [checked, setChecked] = React.useState(true);
 
@@ -86,21 +123,72 @@ function Register() {
   }, []);
 
   /*This handle submit funtion is called when submit button is hit */
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-
-    if (!NICStatus) {
-      //call the api here
-      setNICStatus(true);
-    } else if (!mobileStatus) {
-      //send the OTP here
-      setMobileStatus(true);
-    } else if (!OTPStatus) {
-      //validate the OTP here
-      setOTPStatus(true);
-    }else{
-      //api calls here
-      console.log("Finally! done");
+    console.log("time");
+    try {
+      if (!NICStatus) {
+        const resOfExistance = await checkNICExistance({ NIC: NIC });
+        if (resOfExistance.data.success) {
+          setErrMsg("");
+          return setNICStatus(true);
+        }
+        return setErrMsg("Entered NIC is already registered in the System!");
+      } else if (!mobileStatus) {
+        //send the OTP here
+        configureRecapcha();
+        const phoneNumber = "+94" + mobile;
+        console.log(phoneNumber);
+        const appVerifier = window.recaptchaVerifier;
+        signInWithPhoneNumber(authentication, phoneNumber, appVerifier)
+          .then((confirmationResult) => {
+            // SMS sent. Prompt user to type the code from the message, then sign the
+            // user in with confirmationResult.confirm(code).
+            window.confirmationResult = confirmationResult;
+            console.log("otp has been sent");
+            setMobileStatus(true);
+            // ...
+          })
+          .catch((error) => {
+            setErrMsg("couldn't send the OTP!");
+          });
+      } else if (!OTPStatus) {
+        const code = OTP;
+        window.confirmationResult
+          .confirm(code)
+          .then((result) => {
+            // User signed in successfully.
+            const user = result.user;
+            setOTPStatus(true);
+            // ...
+          })
+          .catch((error) => {
+            setErrMsg("Wrong verification code!");
+          });
+      } else {
+        //api calls here
+        const resOfReg = await registerCustomer({
+          NIC,
+          password:pwd,
+          firstName,
+          lastName,
+          mobile
+        });
+        if(resOfReg.status===201){
+          return navigate("/login",{replace:true});
+        }
+        console.log("this should not be logged!");
+      }
+    } catch (err) {
+      if (!err?.response) {
+        setErrMsg("No server response!");
+      } else if (err.response?.status === 400) {
+        setErrMsg("Missing Email or Password!");
+      } else if (err.response?.status === 401) {
+        setErrMsg("Invalid username, password pair!");
+      } else {
+        setErrMsg("Server Error! Try again later.");
+      }
     }
   };
 
@@ -112,7 +200,7 @@ function Register() {
     }
     return true;
   };
-
+  /*This funtion simply validates the mobile numbers */
   const validateMobile = (value) => {
     return MOBILE_REGEX.test(value);
   };
@@ -128,8 +216,6 @@ function Register() {
     setMobile(e.target.value);
     setMobileValidity(validateMobile(e.target.value));
   };
-
-  
 
   return (
     <>
@@ -157,6 +243,11 @@ function Register() {
                 <Typography component="h1" variant="h5">
                   Register
                 </Typography>
+                {errMsg != "" ? (
+                  <Stack sx={{ width: "100%" }} spacing={2}>
+                    <Alert severity="error">{errMsg}</Alert>
+                  </Stack>
+                ) : null}
                 <Box
                   component="form"
                   noValidate
@@ -180,7 +271,7 @@ function Register() {
                     </Grid>
                     {NICStatus ? (
                       <Grid item xs={1}>
-                        <CheckCircleOutlineIcon />
+                        <CheckCircleOutlineIcon sx={{ color: "#17B505" }} />
                       </Grid>
                     ) : null}
 
@@ -203,7 +294,7 @@ function Register() {
                         </Grid>
                         {OTPStatus ? (
                           <Grid item xs={1}>
-                            <CheckCircleOutlineIcon />
+                            <CheckCircleOutlineIcon sx={{ color: "#17B505" }} />
                           </Grid>
                         ) : null}
                       </>
@@ -227,72 +318,83 @@ function Register() {
                         </Grid>
                       </>
                     ) : null}
-                    {OTPStatus?(
-                    <Grid container mt={2} spacing={2}>
-                      <Grid item xs>
-                        <TextField
-                          required
-                          autoFocus
-                          fullWidth
-                          id="firstName"
-                          label="First Name"
-                          name="firstName"
-                          autoComplete="firstName"
-                          onChange={e=>setFirstName(e.target.value)}
-                          error={!validFName && firstName?true:false}
-                        />
+                    {OTPStatus ? (
+                      <Grid container mt={2} spacing={2}>
+                        <Grid item xs>
+                          <TextField
+                            required
+                            autoFocus
+                            fullWidth
+                            id="firstName"
+                            label="First Name"
+                            name="firstName"
+                            autoComplete="firstName"
+                            onChange={(e) => setFirstName(e.target.value)}
+                            error={!validFName && firstName ? true : false}
+                          />
+                        </Grid>
+                        <Grid item xs>
+                          <TextField
+                            required
+                            fullWidth
+                            id="lastName"
+                            label="Last Name"
+                            name="lastName"
+                            autoComplete="lastName"
+                            onChange={(e) => setLastName(e.target.value)}
+                            error={!validLName && lastName ? true : false}
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            required
+                            fullWidth
+                            type="password"
+                            id="pwd"
+                            label="Password"
+                            name="password"
+                            autoComplete="password"
+                            onChange={(e) => setPwd(e.target.value)}
+                            error={!validPwd && pwd ? true : false}
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            required
+                            fullWidth
+                            type="password"
+                            id="cnfrm"
+                            label="Confirm Password"
+                            name="confirm"
+                            autoComplete="password"
+                            onChange={(e) => setCnfrm(e.target.value)}
+                            error={!validCnfrm && cnfrm ? true : false}
+                          />
+                        </Grid>
                       </Grid>
-                      <Grid item xs>
-                        <TextField
-                          required
-                          fullWidth
-                          id="lastName"
-                          label="Last Name"
-                          name="lastName"
-                          autoComplete="lastName"
-                          onChange={e=>setLastName(e.target.value)}
-                          error={!validLName && lastName?true:false}
-                        />
-                      </Grid>
-                      <Grid item xs={12}>
-                        <TextField
-                          required
-                          fullWidth
-                          type="password"
-                          id="pwd"
-                          label="Password"
-                          name="password"
-                          autoComplete="password"
-                          onChange={e=>setPwd(e.target.value)}
-                          error={!validPwd && pwd?true:false}
-                        />
-                      </Grid>
-                      <Grid item xs={12}>
-                        <TextField
-                          required
-                          fullWidth
-                          type="password"
-                          id="cnfrm"
-                          label="Confirm Password"
-                          name="confirm"
-                          autoComplete="password"
-                          onChange={e=>setCnfrm(e.target.value)}
-                          error={!validCnfrm && cnfrm?true:false}
-                        />
-                      </Grid>
-                    </Grid>
-                    ):null}
+                    ) : null}
                   </Grid>
                   <Button
                     type="submit"
                     fullWidth
                     variant="contained"
                     sx={{ mt: 3, mb: 2 }}
-                    disabled={(
-                      (!NICValidity || !NIC ) || 
-                      (NICStatus && (!mobileValidity || !mobile)) || 
+                    disabled={
+                      !NICValidity ||
+                      !NIC ||
+                      (NICStatus && (!mobileValidity || !mobile)) ||
                       (mobileStatus && !OTP) ||
-                      (OTPStatus && (!firstName || !pwd || !cnfrm ||!validCnfrm || !validPwd || !validFName || (lastName && !validLName))))? true : false}
+                      (OTPStatus &&
+                        (!firstName ||
+                          !pwd ||
+                          !cnfrm ||
+                          !validCnfrm ||
+                          !validPwd ||
+                          !validFName ||
+                          (lastName && !validLName)))
+                        ? true
+                        : false
+                    }
                   >
                     CONTINUE
                   </Button>
@@ -303,6 +405,7 @@ function Register() {
                       </Link>
                     </Grid>
                   </Grid>
+                  <div id="recapcha-container"></div>
                 </Box>
               </Box>
               <Copyright sx={{ mt: 5 }} />
