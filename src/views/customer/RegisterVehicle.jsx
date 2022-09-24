@@ -1,19 +1,19 @@
 import React from 'react';
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
-import Body from './components/Body';
 import { Box, Stack } from '@mui/system';
+import RegisterVehicleForm from './components/RegisterVehicleForm';
 
-const CustomerHome = () => {
+const RegisterVehicle = () => {
   return (
     <Box display="flex" flexDirection="column" sx={{minHeight: '100vh'}}>
       <Navbar/>
       <Stack direction="row" justifyContent="space-between" flex={1} overflow="auto">
         <Sidebar />
-        <Body />
+        <RegisterVehicleForm />
       </Stack>
     </Box>
   )
 }
 
-export default CustomerHome
+export default RegisterVehicle
