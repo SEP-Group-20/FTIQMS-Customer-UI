@@ -5,7 +5,7 @@ import CustomerHome from "../views/customer/CustomerHome";
 import MyVehicles from "../views/customer/MyVehicles";
 import RegisterVehicle from "../views/customer/RegisterVehicle";
 import Register from "../pages/Layout/Register/Register";
-import Login from "../pages/Layout/Login/Login";
+import Login from "../views/login/Login";
 import Unauthorized from "../pages/Unauthorized/Unauthorized";
 import NoPage from "../pages/Layout/NoPage/NoPage";
 import Contact from '../pages/Layout/Contact/Contact';
