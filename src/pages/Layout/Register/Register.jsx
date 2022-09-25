@@ -183,9 +183,9 @@ function Register() {
       if (!err?.response) {
         setErrMsg("No server response!");
       } else if (err.response?.status === 400) {
-        setErrMsg("Missing Email or Password!");
+        setErrMsg("Invalid input fields!");
       } else if (err.response?.status === 401) {
-        setErrMsg("Invalid username, password pair!");
+        setErrMsg("You're unauthorized!");
       } else {
         setErrMsg("Server Error! Try again later.");
       }

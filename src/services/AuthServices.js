@@ -17,5 +17,12 @@ const registerCustomer = (formData) => {
         data: formData,
     });
 };
+const loginCustomer = (formData) => {
+    return axios({
+        method: "post",
+        url: APIEndPoint + "/customerLogin",
+        data: formData,
+    });
+};
 
-export {checkNICExistance,registerCustomer};
+export {checkNICExistance,registerCustomer,loginCustomer};
