@@ -12,7 +12,11 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { CheckCircle, DirectionsCar } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-import { Modal } from "@mui/material";
+import { Alert, Modal, Stack } from "@mui/material";
+import { authentication } from "../../../services/firebaseService";
+import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+import { useAuth } from '../../../utils/auth'
+import { getVehicleDetails, isVehicleReal, isVehicleRegistered, registerVehicle } from "../../../services/vehicleServices";
 
 const REGISTRATION_REGEX = /^(?:[a-zA-Z]{1,3}|(?!0*-)[0-9]{1,3})(-| )[0-9]{4}(?<!0{4})$/;
 
@@ -64,50 +68,153 @@ function RegisterVehicleForm() {
 
   const [OTP, setOTP] = useState("");
   const [OTPStatus, setOTPStatus] = useState(false);
-  
+
+  const [owner, setOwner] = useState("");
+  const [vehicleMake, setVehicleMake] = useState("");
+  const [vehicleModel, setVehicleModel] = useState("");
+  const [vehicleType, setVehicleType] = useState("");
+  const [fuel, setFuel] = useState("");
+  const [fuelAllocationCategory, setFuelAllocationCategory] = useState("");
+  const [fuelAllocation, setFuelAllocation] = useState("");
+
   const [buttonText, setButtonText] = useState("Register")
 
   const [checked, setChecked] = useState(true);
 
-  const [open, setOpen] = React.useState(false);
+  const [errMsg, setErrMsg] = React.useState("");
+
+  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const navigate = useNavigate();
+
+  const {auth} = useAuth();
+
+  // console.log(auth().user);
+  const userNIC = "19992041900V";
+
+  /*this functions configures invisible recapcha to 
+  verify that the account creater is a human*/
+  const configureRecapcha = () => {
+    console.log("recap-entered");
+    window.recaptchaVerifier = new RecaptchaVerifier(
+      "recapcha-container",
+      {
+        size: "invisible",
+        callback: (response) => {
+          // reCAPTCHA solved, allow signInWithPhoneNumber.
+          console.log("Recapcha verified!");
+        },
+      },
+      authentication
+    );
+  };
+
+  useEffect(() => {
+    setErrMsg("");
+  }, [registrationNumber, chassisNumber, OTP, owner, vehicleMake, vehicleModel, vehicleType, fuel, fuelAllocationCategory, fuelAllocation]);
 
   useEffect(() => {
     setChecked((prev) => !prev);
   }, []);
 
   /*This handle submit funtion is called when submit button is hit */
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (!registrationNumberStatus && !chassisNumberStatus) {
-      //call the api here to validate the numbers and if valid get mobile number of the owner
       console.log("verifying registrationNumber and chassisNumber");
-      setRegistrationNumberStatus(true);
-      setChassisNumberStatus(true);
-      //send the OTP here
-      setButtonText("Verify");
+      //call the api here to validate the vehicle has not been registered before
+      const vehicleRegistered = await isVehicleRegistered({ registrationNumber: registrationNumber, chassisNumber: chassisNumber });
+
+      if (vehicleRegistered.data.success) {
+        // vehicle is not registered. Check for validity from DMT API
+        const vehicleExists = await isVehicleReal({ registrationNumber: registrationNumber, chassisNumber: chassisNumber });
+
+        if (vehicleExists.data.mobileNum !== "0") {
+          const mobile = vehicleExists.data.mobileNum;
+          //send the OTP here
+          configureRecapcha();
+          const phoneNumber = "+94" + mobile;
+          const appVerifier = window.recaptchaVerifier;
+          signInWithPhoneNumber(authentication, phoneNumber, appVerifier)
+            .then((confirmationResult) => {
+              // SMS sent. Prompt user to type the code from the message
+              window.confirmationResult = confirmationResult;
+              console.log("otp has been sent");
+              setButtonText("Verify");
+              setRegistrationNumberStatus(true);
+              setChassisNumberStatus(true);              
+            })
+            .catch((error) => {
+              setErrMsg("couldn't send the OTP!");
+            });
+
+          return;
+        }
+        return setErrMsg("Registration number or chassis number is invalid!");
+      }
+      return setErrMsg("Entered vehicle is already registered in the System!");
       
     } else if (!OTPStatus) {
       //validate the OTP here
       console.log("verifying OTP");
-      setOTPStatus(true);
-      // call api an get vehcile details and populate the fields
+      const code = OTP;
+      window.confirmationResult
+        .confirm(code)
+        .then(async (result) => {
+          // OTP verified. Get vehicle details from DMT
+          const vehicleDetails_Status = await getVehicleDetails({ registrationNumber: registrationNumber, chassisNumber: chassisNumber });
+
+          // populate the form fields
+          if (vehicleDetails_Status.data.success) {
+            const vehicleDetails = vehicleDetails_Status.data.vehicle;
+            setOwner(vehicleDetails.owner);
+            setVehicleMake(vehicleDetails.make);
+            setVehicleModel(vehicleDetails.model);
+            setVehicleType(vehicleDetails.vehicleType);
+            setFuel(vehicleDetails.fuelType);
+            setFuelAllocationCategory(vehicleDetails.fuelAllocationCategory);
+            setFuelAllocation(vehicleDetails.fuelAllocation);
+            setOTPStatus(true);
+            return;
+          }
+          return setErrMsg("Vehicle details retrival failed!");
+        })
+        .catch((error) => {
+          setErrMsg("Wrong verification code!");
+        });
       setButtonText("Register");
-    }else{
-      //api calls here
-      console.log("Finally! done");
-      handleOpen();
-      setTimeout(function () {
-        navigate('/customer/myVehicles');
-      }, 3000);
+    } else {
+      //register the vehicle
+      const resOfReg = await registerVehicle({
+        userNIC,
+        registrationNumber,
+        chassisNumber,
+        owner,
+        make: vehicleMake,
+        model: vehicleModel,
+        fuelType: fuel,
+        vehicleType: fuelAllocationCategory
+      });
+
+      if (resOfReg.status===201){
+        handleOpen();
+        setTimeout(function () {
+          return navigate('/customer/myVehicles');
+        }, 3000);
+      } else {
+        setErrMsg("Vehicle Registration Failed");
+        // setRegistrationNumberStatus(false);
+        // setChassisNumberStatus(false);
+        // setOTPStatus(false);        
+      }
+
     }
   };
 
-  /*this funtion validates the NIC and returns
+  /*this funtion validates the chassis number and returns
   true if it is valid, returns false otherwise */
   const validateChassisNumber = (value) => {
     if (value.length !== 17) {
@@ -121,7 +228,7 @@ function RegisterVehicleForm() {
   };
 
   /*this function handles the changes of 
-  NIC input field */
+  registration number input field */
   const handleRegistrationNumberChange = (e) => {
     setRegistrationNumber(e.target.value);
     setRegistrationNumberValidity(validateRegistrationNumber(e.target.value));
@@ -159,6 +266,11 @@ function RegisterVehicleForm() {
                   <Typography component="h1" variant="h5">
                     Register New Vehicle
                   </Typography>
+                  {errMsg != "" ? (
+                    <Stack sx={{ width: "100%" }} spacing={2}>
+                      <Alert severity="error">{errMsg}</Alert>
+                    </Stack>
+                  ) : null}
                   <Box
                     component="form"
                     noValidate
@@ -233,16 +345,16 @@ function RegisterVehicleForm() {
                             id="owner"
                             label="Vehicle Owner"
                             name="owner"
-                            value="Thivindu Paranayapa"
+                            value={owner}
                           />
                         </Grid>
                         <Grid item xs={6}>
                         <TextField
                             fullWidth
-                            id="c"
+                            id="vehicleMake"
                             label="Vehicle Make"
                             name="vehicleMake"
-                            value="Toyota"
+                            value={vehicleMake}
                           />
                         </Grid>
                         <Grid item xs={6}>
@@ -251,7 +363,7 @@ function RegisterVehicleForm() {
                             id="vehicleModel"
                             label="Vehicle Model"
                             name="vehicleModel"
-                            value="Axio"
+                            value={vehicleModel}
                           />
                         </Grid>
                         <Grid item xs={6}>
@@ -260,7 +372,7 @@ function RegisterVehicleForm() {
                             id="vehicleType"
                             label="Vehicle Type"
                             name="vehicleType"
-                            value="Car"
+                            value={vehicleType}
                           />
                         </Grid>
                         <Grid item xs={6}>
@@ -269,7 +381,7 @@ function RegisterVehicleForm() {
                               id="fuel"
                               label="Fuel Type"
                               name="fuel"
-                              value="Petrol"
+                              value={fuel}
                             />
                         </Grid>
                         <Grid item xs={6}>
@@ -278,7 +390,7 @@ function RegisterVehicleForm() {
                             id="fuelAllocationCategory"
                             label="Fuel Allocation Category"
                             name="fuelAllocationCategory"
-                            value="Petrol vehicle"
+                            value={fuelAllocationCategory}
                           />
                         </Grid>
                         <Grid item xs={6}>
@@ -287,7 +399,7 @@ function RegisterVehicleForm() {
                             id="fuelAllocation"
                             label="Fuel Allocation"
                             name="fuelAllocation"
-                            value="20 liters"
+                            value={fuelAllocation}
                           />
                         </Grid>
                       </Grid>
@@ -304,6 +416,7 @@ function RegisterVehicleForm() {
                     >
                       {buttonText}
                     </Button>
+                    <div id="recapcha-container"></div>
                   </Box>
                 </Box>
                 <Copyright sx={{ mt: 5 }} />
