@@ -13,8 +13,10 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Stack, Alert } from '@mui/material';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { loginCustomer } from "../../../services/AuthServices";
+import { useAuth } from "../../../utils/auth";
 
 function Copyright(props) {
     return (
@@ -34,6 +36,9 @@ const theme = createTheme();
 export default function PasswordLogin() {
 
     const [errMsg, setErrMsg] = React.useState("");
+    const location = useLocation();
+    const navigate = useNavigate();
+    const { setAuth } = useAuth();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -42,7 +47,10 @@ export default function PasswordLogin() {
         try {
             const response = await loginCustomer({ NIC: data.get('nic'), password: data.get('password') });
             if (response.status === 200) {
-                console.log("DONe!")
+                setAuth(response.data.accessToken);
+
+                const from = location.state?.from || "/customerHome";
+                navigate(from, { replace: true });
             }
         } catch (err) {
             if (!err?.response) {
@@ -89,6 +97,7 @@ export default function PasswordLogin() {
                             label="NIC"
                             name="nic"
                             autoComplete="nic"
+                            onChange={() => { setErrMsg("") }}
                             autoFocus
                         />
                         <TextField
@@ -97,6 +106,7 @@ export default function PasswordLogin() {
                             fullWidth
                             name="password"
                             label="Password"
+                            onChange={() => { setErrMsg("") }}
                             type="password"
                             id="password"
                             autoComplete="current-password"
