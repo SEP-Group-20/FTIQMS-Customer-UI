@@ -49,7 +49,7 @@ export default function PasswordLogin() {
             if (response.status === 200) {
                 setAuth(response.data.accessToken);
 
-                const from = location.state?.from || "/customerHome";
+                const from = location.state?.from || "/customer/home";
                 navigate(from, { replace: true });
             }
         } catch (err) {
