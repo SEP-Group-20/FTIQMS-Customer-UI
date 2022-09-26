@@ -1,10 +1,23 @@
-import { AccountBox, DirectionsCar, Home, LocalGasStation, QrCode } from '@mui/icons-material'
-import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
-import React from 'react'
+import {
+  AccountBox,
+  DirectionsCar,
+  Home,
+  LocalGasStation,
+  QrCode,
+} from "@mui/icons-material";
+import {
+  Box,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+} from "@mui/material";
+import React from "react";
 
 const Sidebar = () => {
   return (
-    <Box bgcolor="darkorange" flex={1} p={2} >
+    <Box bgcolor="darkorange" flex={1} p={2}>
       <List>
         <ListItem disablePadding>
           <ListItemButton component="a" href="/customer/home">
@@ -31,7 +44,7 @@ const Sidebar = () => {
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
-          <ListItemButton component="a" href="/">
+          <ListItemButton component="a" href="/customer/qrcode">
             <ListItemIcon>
               <QrCode />
             </ListItemIcon>
@@ -48,7 +61,7 @@ const Sidebar = () => {
         </ListItem>
       </List>
     </Box>
-  )
-}
+  );
+};
 
-export default Sidebar
+export default Sidebar;
