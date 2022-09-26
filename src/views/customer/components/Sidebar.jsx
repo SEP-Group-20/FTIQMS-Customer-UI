@@ -7,7 +7,7 @@ const Sidebar = () => {
     <Box bgcolor="darkorange" flex={1} p={2} >
       <List>
         <ListItem disablePadding>
-          <ListItemButton component="a" href="/">
+          <ListItemButton component="a" href="/customer/home">
             <ListItemIcon>
               <Home />
             </ListItemIcon>
@@ -15,7 +15,7 @@ const Sidebar = () => {
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
-          <ListItemButton component="a" href="/">
+          <ListItemButton component="a" href="/customer/myVehicles">
             <ListItemIcon>
               <DirectionsCar />
             </ListItemIcon>
