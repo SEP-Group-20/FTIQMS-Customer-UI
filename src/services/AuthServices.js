@@ -24,5 +24,19 @@ const loginCustomer = (formData) => {
         data: formData,
     });
 };
+const getMobileByNIC = (formData) => {
+    return axios({
+        method: "post",
+        url: APIEndPoint + "/getMobileByNIC",
+        data: formData,
+    });
+};
+const validateFirebaseToken = (formData) => {
+    return axios({
+        method: "post",
+        url: APIEndPoint + "/validateFirebaseAndLogin",
+        data: formData,
+    });
+};
 
-export {checkNICExistance,registerCustomer,loginCustomer};
+export {checkNICExistance,registerCustomer,loginCustomer,getMobileByNIC,validateFirebaseToken};
