@@ -1,13 +1,12 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import React from "react";
-// import Login from "../views/login/Login";
 import CustomerHome from "../views/customer/CustomerHome";
 import MyVehicles from "../views/customer/MyVehicles";
 import RegisterVehicle from "../views/customer/RegisterVehicle";
-import Register from "../pages/Layout/Register/Register";
+import Register from "../views/register/Register";
 import Login from "../views/login/Login";
-import NoPage from "../pages/Layout/NoPage/NoPage";
-import Contact from '../pages/Layout/Contact/Contact';
+import NoPage from "../views/noPage/NoPage";
+import Contact from '../views/contact/Contact';
 import RequireAuth from '../utils/requireAuth';
 import { CUSTOMER } from "../utils/RolesList";
 import QRCodeView from "../views/customer/QRCode";

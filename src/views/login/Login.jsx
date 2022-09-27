@@ -15,8 +15,8 @@ function TabPanel(props) {
     <div
       role="tabpanel"
       hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
+      id={`full-width-tabpanel-${index}`}
+      aria-labelledby={`full-width-tab-${index}`}
       {...other}
     >
       {value === index && (
@@ -36,8 +36,8 @@ TabPanel.propTypes = {
 
 function a11yProps(index) {
   return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
+    id: `full-width-tab-${index}`,
+    'aria-controls': `full-width-tabpanel-${index}`,
   };
 }
 
@@ -55,7 +55,8 @@ export default function Login() {
           <Tabs
             value={value}
             onChange={handleChange}
-            aria-label="basic tabs example"
+            variant="fullWidth"
+            aria-label="full width tabs example"
           >
             <Tab label="Password Method" {...a11yProps(0)} />
             <Tab label="OTP Method" {...a11yProps(1)} />
