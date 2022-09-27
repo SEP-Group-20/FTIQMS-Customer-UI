@@ -15,10 +15,10 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { Stack, Alert } from "@mui/material";
-import { authentication } from "../../../services/firebaseService";
+import { authentication } from "../../services/firebaseService";
 
-import { checkNICExistance } from "../../../services/AuthServices";
-import { registerCustomer } from "../../../services/AuthServices";
+import { checkNICExistance } from "../../services/AuthServices";
+import { registerCustomer } from "../../services/AuthServices";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 
 const PWD_REGEX =
@@ -400,7 +400,7 @@ function Register() {
                   </Button>
                   <Grid container justifyContent="flex-end">
                     <Grid item>
-                      <Link href="#" variant="body2">
+                      <Link href="/login" variant="body2">
                         Already have an account? Sign in
                       </Link>
                     </Grid>

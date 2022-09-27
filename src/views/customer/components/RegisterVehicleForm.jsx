@@ -91,8 +91,7 @@ function RegisterVehicleForm() {
 
   const {auth} = useAuth();
 
-  // console.log(auth().user);
-  const userNIC = "19992041900V";
+  const userNIC = auth().user.NIC;
 
   /*this functions configures invisible recapcha to 
   verify that the account creater is a human*/
@@ -196,7 +195,8 @@ function RegisterVehicleForm() {
         make: vehicleMake,
         model: vehicleModel,
         fuelType: fuel,
-        vehicleType: fuelAllocationCategory
+        vehicleType: fuelAllocationCategory,
+        fuelAllocation
       });
 
       if (resOfReg.status===201){

@@ -70,8 +70,8 @@ const Navbar = () => {
           horizontal: 'right',
         }}
       >
-        <MenuItem component="a" href="/">Profile</MenuItem>
-        <MenuItem component="a" href="/">Logout</MenuItem>
+        <MenuItem component="a" href="#">Profile</MenuItem>
+        <MenuItem component="a" href="#">Logout</MenuItem>
       </Menu>
     </AppBar>
   )
