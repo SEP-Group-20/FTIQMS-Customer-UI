@@ -18,10 +18,18 @@ const isVehicleReal = (formData) => {
     });
 };
 
-const getVehicleDetails = (formData) => {
+const getVehicleDetailsDMT = (formData) => {
     return axios({
         method: "post",
-        url: APIEndPoint + "/getVehicleDetails",
+        url: APIEndPoint + "/getVehicleDetailsDMT",
+        data: formData,
+    });
+};
+
+const getVehicleDetails = (vid, formData) => {
+    return axios({
+        method: "post",
+        url: APIEndPoint + "/getVehicleDetails/" + vid,
         data: formData,
     });
 };
@@ -34,4 +42,4 @@ const registerVehicle = (formData) => {
     });
 };
 
-export {isVehicleRegistered, isVehicleReal, getVehicleDetails, registerVehicle};
+export {isVehicleRegistered, isVehicleReal, getVehicleDetailsDMT, getVehicleDetails, registerVehicle};
