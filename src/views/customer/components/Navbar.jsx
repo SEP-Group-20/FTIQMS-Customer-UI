@@ -1,6 +1,8 @@
 import { Notifications } from '@mui/icons-material';
 import { AppBar, Avatar, Badge, Box, Menu, MenuItem, styled, Toolbar, Typography } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { getUserName } from '../../../services/UserService';
+import { useAuth } from '../../../utils/auth';
 
 const StyledToolBar = styled(Toolbar)({
   display: "flex",
@@ -27,6 +29,19 @@ const UserBox = styled(Box)(( {theme} ) => ({
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const [username, setUsername] = useState("");
+
+  const {auth} = useAuth();
+
+  const userNIC = auth().user.NIC;
+
+  useEffect(() => {
+    async function fetchusername() {
+      const userDetails = await getUserName({userNIC: userNIC});
+      setUsername(userDetails.data.user.firstName + " " + userDetails.data.user.lastName );
+    }
+    fetchusername();
+  }, []);
   
   return (
     <AppBar position="sticky">
@@ -38,7 +53,7 @@ const Navbar = () => {
             <Notifications/>
           </Badge>
           <Typography variant='span'>
-            Thivindu
+            {username}
           </Typography>
           <Avatar 
             sx={{width:30, height: 30}}
