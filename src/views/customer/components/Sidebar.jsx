@@ -7,6 +7,7 @@ import {
 } from "@mui/icons-material";
 import {
   Box,
+  Divider,
   List,
   ListItem,
   ListItemButton,
@@ -17,7 +18,7 @@ import React from "react";
 
 const Sidebar = () => {
   return (
-    <Box bgcolor="darkorange" flex={1} p={2}>
+    <Box bgcolor="#f57b51" flex={1} p={2}>
       <List>
         <ListItem disablePadding>
           <ListItemButton component="a" href="/customer/home">
@@ -27,6 +28,7 @@ const Sidebar = () => {
             <ListItemText primary="Home" />
           </ListItemButton>
         </ListItem>
+        <Divider component="li" />
         <ListItem disablePadding>
           <ListItemButton component="a" href="/customer/myVehicles">
             <ListItemIcon>
@@ -35,14 +37,16 @@ const Sidebar = () => {
             <ListItemText primary="My Vehicles" />
           </ListItemButton>
         </ListItem>
+        <Divider component="li" />
         <ListItem disablePadding>
-          <ListItemButton component="a" href="/">
+          <ListItemButton component="a" href="/customer/requestFuel">
             <ListItemIcon>
               <LocalGasStation />
             </ListItemIcon>
             <ListItemText primary="Request Fuel" />
           </ListItemButton>
         </ListItem>
+        <Divider component="li" />
         <ListItem disablePadding>
           <ListItemButton component="a" href="/customer/qrcode">
             <ListItemIcon>
@@ -51,6 +55,7 @@ const Sidebar = () => {
             <ListItemText primary="QR Code" />
           </ListItemButton>
         </ListItem>
+        <Divider component="li" />
         <ListItem disablePadding>
           <ListItemButton component="a" href="/">
             <ListItemIcon>
