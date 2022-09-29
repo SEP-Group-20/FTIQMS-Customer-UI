@@ -240,8 +240,8 @@ function RegisterVehicleForm() {
   };
 
   return (
-    <Box bgcolor="lightblue" flex={5} p={2} >
-      <Box bgcolor="white" flex={5} p={3} sx={{ borderRadius: '9px' }}>
+    <Box bgcolor="#d1cebd" flex={5} p={2} >
+      <Box bgcolor="#f5f4f0" flex={5} p={3} sx={{ borderRadius: '9px' }}>
         <Slide
           direction={checked ? "up" : "down"}
           in={checked}

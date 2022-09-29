@@ -1,10 +1,10 @@
-import { Notifications } from '@mui/icons-material';
-import { AppBar, Avatar, Badge, Box, Menu, MenuItem, styled, Toolbar, Typography } from '@mui/material'
+import { AppBar, Avatar, Box, Menu, MenuItem, styled, Toolbar, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { getUserName } from '../../../services/UserService';
 import { useAuth } from '../../../utils/auth';
 
 const StyledToolBar = styled(Toolbar)({
+  bgcolor:"#d63447",
   display: "flex",
   justifyContent: "space-between",
 });
@@ -41,17 +41,14 @@ const Navbar = () => {
       setUsername(userDetails.data.user.firstName + " " + userDetails.data.user.lastName );
     }
     fetchusername();
-  }, []);
+  }, [userNIC]);
   
   return (
-    <AppBar position="sticky">
+    <AppBar position="sticky" sx={{background:"#d63447"}}>
       <StyledToolBar>
         <Typography variant='h5'>Fuel Token Issuer and Queue Management System</Typography>
 
         <Icons>
-          <Badge badgeContent={4} color="error" component="a" href="/">
-            <Notifications/>
-          </Badge>
           <Typography variant='span'>
             {username}
           </Typography>

@@ -15,7 +15,7 @@ const MyVehicles = () => {
         <VehicleList />
       </Stack>
       <div>
-        <Tooltip title="Add Vehicle" sx={{position: "fixed", bottom: 20, right: 20}}>
+        <Tooltip title="Add Vehicle" sx={{position: "fixed", bottom: 20, right: 20, background: "#ff5722", '&:hover': {backgroundColor: '#ff3c00'}}}>
           <Fab color="primary" aria-label="add" component="a" href="/customer/registerVehicle">
             <Add />
           </Fab>
