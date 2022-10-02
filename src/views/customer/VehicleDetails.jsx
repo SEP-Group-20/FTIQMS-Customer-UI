@@ -16,7 +16,7 @@ function VehicleDetails() {
 
   const {auth} = useAuth();
 
-  const userNIC = auth().user.NIC;
+  const userNIC = auth().user.NIC; // get the NIC of the logged in customer
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -26,6 +26,7 @@ function VehicleDetails() {
     setOpen(false);
   };
 
+  // get details of the registered vehicles of the customer
   useEffect(() => {
     async function fetchVehicleDetails() {
       const vehicleDetails_Status = await getVehicleDetails(vid, {userNIC: userNIC});
@@ -39,6 +40,7 @@ function VehicleDetails() {
     fetchVehicleDetails();
   }, [vid, userNIC]);
 
+  // display the detials of the vehicle, error messages and the vehicle removal confirmation popup
   return (
     <Box display="flex" flexDirection="column" sx={{minHeight: '100vh'}}>
       <Navbar/>
@@ -47,10 +49,12 @@ function VehicleDetails() {
         <Box bgcolor="lightblue" flex={5} p={2} >
           <Box bgcolor="white" flex={5} p={3} sx={{ borderRadius: '9px' }}>
             {errMsg !== "" ? (
+              // error
               <Stack sx={{ width: "100%" }} spacing={2}>
                 <Alert severity="error">{errMsg}</Alert>
               </Stack>
             ) : 
+              // if no error display the detials of the vehicle
               <>
                 <List>
                   <ListItem>
@@ -126,12 +130,14 @@ function VehicleDetails() {
                     </Typography>
                   </ListItem>
                 </List>
+                {/* remove vehicle button */}
                 <Box textAlign='center' mt={4}>
                   <Button variant="outlined" color="error" m={4} startIcon={<Delete />} onClick={handleClickOpen}>
                     Remove Vehicle
                   </Button>
                 </Box>
 
+                {/* vehicle removal popup when the remove vehicle button is clicked */}
                 <Dialog
                   open={open}
                   onClose={handleClose}
