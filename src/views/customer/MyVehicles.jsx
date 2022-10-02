@@ -12,9 +12,11 @@ const MyVehicles = () => {
       <Navbar/>
       <Stack direction="row" justifyContent="space-between" flex={1} overflow="auto">
         <Sidebar />
+        {/* vehicle list */}
         <VehicleList />
       </Stack>
       <div>
+        {/* add vehicle button */}
         <Tooltip title="Add Vehicle" sx={{position: "fixed", bottom: 20, right: 20, background: "#ff5722", '&:hover': {backgroundColor: '#ff3c00'}}}>
           <Fab color="primary" aria-label="add" component="a" href="/customer/registerVehicle">
             <Add />

@@ -203,7 +203,7 @@ function RegisterVehicleForm() {
         handleOpen();
         setTimeout(function () {
           return navigate('/customer/myVehicles');
-        }, 3000);
+        }, 2000);
       } else {
         setErrMsg("Vehicle Registration Failed");
         // setRegistrationNumberStatus(false);
