@@ -38,5 +38,11 @@ const validateFirebaseToken = (formData) => {
         data: formData,
     });
 };
+const logoutBackend = () => {
+    return axios({
+        method: "get",
+        url: APIEndPoint + "/logout"
+    });
+};
 
-export {checkNICExistance,registerCustomer,loginCustomer,getMobileByNIC,validateFirebaseToken};
+export {checkNICExistance,registerCustomer,loginCustomer,getMobileByNIC,validateFirebaseToken,logoutBackend};
