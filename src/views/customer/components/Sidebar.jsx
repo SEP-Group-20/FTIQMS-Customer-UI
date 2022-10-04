@@ -20,6 +20,7 @@ const Sidebar = () => {
   return (
     <Box bgcolor="#f57b51" flex={1} p={2}>
       <List>
+        {/* home button */}
         <ListItem disablePadding>
           <ListItemButton component="a" href="/customer/home">
             <ListItemIcon>
@@ -29,6 +30,7 @@ const Sidebar = () => {
           </ListItemButton>
         </ListItem>
         <Divider component="li" />
+        {/* my vehicles button - to view the all registered vehicles */}
         <ListItem disablePadding>
           <ListItemButton component="a" href="/customer/myVehicles">
             <ListItemIcon>
@@ -38,6 +40,7 @@ const Sidebar = () => {
           </ListItemButton>
         </ListItem>
         <Divider component="li" />
+        {/* button to request fuel form a vehicle */}
         <ListItem disablePadding>
           <ListItemButton component="a" href="/customer/requestFuel">
             <ListItemIcon>
@@ -47,6 +50,7 @@ const Sidebar = () => {
           </ListItemButton>
         </ListItem>
         <Divider component="li" />
+        {/* button to view the QR code */}
         <ListItem disablePadding>
           <ListItemButton component="a" href="/customer/qrcode">
             <ListItemIcon>
@@ -56,6 +60,7 @@ const Sidebar = () => {
           </ListItemButton>
         </ListItem>
         <Divider component="li" />
+        {/* button to view the account details of the customer */}
         <ListItem disablePadding>
           <ListItemButton component="a" href="/">
             <ListItemIcon>
