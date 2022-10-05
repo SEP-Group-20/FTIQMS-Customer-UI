@@ -7,6 +7,7 @@ import {
 } from "@mui/icons-material";
 import {
   Box,
+  Divider,
   List,
   ListItem,
   ListItemButton,
@@ -17,8 +18,9 @@ import React from "react";
 
 const Sidebar = () => {
   return (
-    <Box bgcolor="darkorange" flex={1} p={2}>
+    <Box bgcolor="#f57b51" flex={1} p={2}>
       <List>
+        {/* home button */}
         <ListItem disablePadding>
           <ListItemButton component="a" href="/customer/home">
             <ListItemIcon>
@@ -27,6 +29,8 @@ const Sidebar = () => {
             <ListItemText primary="Home" />
           </ListItemButton>
         </ListItem>
+        <Divider component="li" />
+        {/* my vehicles button - to view the all registered vehicles */}
         <ListItem disablePadding>
           <ListItemButton component="a" href="/customer/myVehicles">
             <ListItemIcon>
@@ -35,14 +39,18 @@ const Sidebar = () => {
             <ListItemText primary="My Vehicles" />
           </ListItemButton>
         </ListItem>
+        <Divider component="li" />
+        {/* button to request fuel form a vehicle */}
         <ListItem disablePadding>
-          <ListItemButton component="a" href="/">
+          <ListItemButton component="a" href="/customer/requestFuel">
             <ListItemIcon>
               <LocalGasStation />
             </ListItemIcon>
             <ListItemText primary="Request Fuel" />
           </ListItemButton>
         </ListItem>
+        <Divider component="li" />
+        {/* button to view the QR code */}
         <ListItem disablePadding>
           <ListItemButton component="a" href="/customer/qrcode">
             <ListItemIcon>
@@ -51,8 +59,10 @@ const Sidebar = () => {
             <ListItemText primary="QR Code" />
           </ListItemButton>
         </ListItem>
+        <Divider component="li" />
+        {/* button to view the account details of the customer */}
         <ListItem disablePadding>
-          <ListItemButton component="a" href="/">
+          <ListItemButton component="a" href="/customer/viewAccount">
             <ListItemIcon>
               <AccountBox />
             </ListItemIcon>

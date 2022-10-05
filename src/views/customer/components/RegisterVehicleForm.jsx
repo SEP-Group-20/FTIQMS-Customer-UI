@@ -16,7 +16,7 @@ import { Alert, Modal, Stack } from "@mui/material";
 import { authentication } from "../../../services/firebaseService";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { useAuth } from '../../../utils/auth'
-import { getVehicleDetails, isVehicleReal, isVehicleRegistered, registerVehicle } from "../../../services/vehicleServices";
+import { getVehicleDetailsDMT, isVehicleReal, isVehicleRegistered, registerVehicle } from "../../../services/vehicleServices";
 
 const REGISTRATION_REGEX = /^(?:[a-zA-Z]{1,3}|(?!0*-)[0-9]{1,3})(-| )[0-9]{4}(?<!0{4})$/;
 
@@ -91,8 +91,7 @@ function RegisterVehicleForm() {
 
   const {auth} = useAuth();
 
-  // console.log(auth().user);
-  const userNIC = "19992041900V";
+  const userNIC = auth().user.NIC;
 
   /*this functions configures invisible recapcha to 
   verify that the account creater is a human*/
@@ -165,7 +164,7 @@ function RegisterVehicleForm() {
         .confirm(code)
         .then(async (result) => {
           // OTP verified. Get vehicle details from DMT
-          const vehicleDetails_Status = await getVehicleDetails({ registrationNumber: registrationNumber, chassisNumber: chassisNumber });
+          const vehicleDetails_Status = await getVehicleDetailsDMT({ registrationNumber: registrationNumber, chassisNumber: chassisNumber });
 
           // populate the form fields
           if (vehicleDetails_Status.data.success) {
@@ -196,14 +195,15 @@ function RegisterVehicleForm() {
         make: vehicleMake,
         model: vehicleModel,
         fuelType: fuel,
-        vehicleType: fuelAllocationCategory
+        vehicleType: fuelAllocationCategory,
+        fuelAllocation
       });
 
       if (resOfReg.status===201){
         handleOpen();
         setTimeout(function () {
           return navigate('/customer/myVehicles');
-        }, 3000);
+        }, 2000);
       } else {
         setErrMsg("Vehicle Registration Failed");
         // setRegistrationNumberStatus(false);
@@ -240,8 +240,8 @@ function RegisterVehicleForm() {
   };
 
   return (
-    <Box bgcolor="lightblue" flex={5} p={2} >
-      <Box bgcolor="white" flex={5} p={3} sx={{ borderRadius: '9px' }}>
+    <Box bgcolor="#d1cebd" flex={5} p={2} >
+      <Box bgcolor="#f5f4f0" flex={5} p={3} sx={{ borderRadius: '9px' }}>
         <Slide
           direction={checked ? "up" : "down"}
           in={checked}
@@ -266,7 +266,7 @@ function RegisterVehicleForm() {
                   <Typography component="h1" variant="h5">
                     Register New Vehicle
                   </Typography>
-                  {errMsg != "" ? (
+                  {errMsg !== "" ? (
                     <Stack sx={{ width: "100%" }} spacing={2}>
                       <Alert severity="error">{errMsg}</Alert>
                     </Stack>

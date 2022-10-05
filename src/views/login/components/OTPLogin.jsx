@@ -172,29 +172,36 @@ export default function OTPLogin() {
             noValidate
             sx={{ mt: 1 }}
           >
-            <TextField
-              required
-              fullWidth
-              id="nic"
-              label="NIC"
-              name="NIC"
-              disabled={NICStatus ? true : false}
-              onChange={() => setErrMsg("")}
-              autoComplete="nic"
-              autoFocus
-            />
-            {NICStatus && (
-              <TextField
-                required
-                fullWidth
-                id="otp"
-                label="OTP"
-                name="OTP"
-                autoComplete="otp"
-                onChange={() => setErrMsg("")}
-                autoFocus
-              />
-            )}
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="nic"
+                  label="NIC"
+                  name="NIC"
+                  disabled={NICStatus ? true : false}
+                  onChange={() => setErrMsg("")}
+                  autoComplete="nic"
+                  autoFocus
+                />
+              </Grid>
+
+              {NICStatus && (
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    id="otp"
+                    label="OTP"
+                    name="OTP"
+                    autoComplete="otp"
+                    onChange={() => setErrMsg("")}
+                    autoFocus
+                  />
+                </Grid>
+              )}
+            </Grid>
             <Button
               type="submit"
               fullWidth
@@ -204,13 +211,10 @@ export default function OTPLogin() {
               Continue
             </Button>
             <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
+              <Grid item xs={12}>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/register" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>

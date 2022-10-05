@@ -15,10 +15,10 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { Stack, Alert } from "@mui/material";
-import { authentication } from "../../../services/firebaseService";
+import { authentication } from "../../services/firebaseService";
 
-import { checkNICExistance } from "../../../services/AuthServices";
-import { registerCustomer } from "../../../services/AuthServices";
+import { checkNICExistance } from "../../services/AuthServices";
+import { registerCustomer } from "../../services/AuthServices";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 
 const PWD_REGEX =
@@ -26,6 +26,8 @@ const PWD_REGEX =
 const NAME_REGEX = /^[a-z ,.'-]+$/i;
 const MOBILE_REGEX =
   /^(?:(?:\+|0{0,2})91(\s*[\ -]\s*)?|[0]?)?[456789]\d{8}|(\d[ -]?){8}\d$/;
+const NIC_REGEX =
+  /^([0-9]{9}[x|X|v|V]|[0-9]{12})$/;
 
 function Copyright(props) {
   return (
@@ -48,7 +50,6 @@ function Copyright(props) {
 const theme = createTheme();
 
 function Register() {
-
   const navigate = useNavigate();
 
   const [NICStatus, setNICStatus] = React.useState(false);
@@ -169,13 +170,13 @@ function Register() {
         //api calls here
         const resOfReg = await registerCustomer({
           NIC,
-          password:pwd,
+          password: pwd,
           firstName,
           lastName,
-          mobile
+          mobile,
         });
-        if(resOfReg.status===201){
-          return navigate("/login",{replace:true});
+        if (resOfReg.status === 201) {
+          return navigate("/login", { replace: true });
         }
         console.log("this should not be logged!");
       }
@@ -195,10 +196,7 @@ function Register() {
   /*this funtion validates the NIC and returns
   true if it is valid, returns false otherwise */
   const validateNIC = (value) => {
-    if (value.length < 12) {
-      return false;
-    }
-    return true;
+    return NIC_REGEX.test(value);
   };
   /*This funtion simply validates the mobile numbers */
   const validateMobile = (value) => {
@@ -400,7 +398,7 @@ function Register() {
                   </Button>
                   <Grid container justifyContent="flex-end">
                     <Grid item>
-                      <Link href="#" variant="body2">
+                      <Link href="/login" variant="body2">
                         Already have an account? Sign in
                       </Link>
                     </Grid>

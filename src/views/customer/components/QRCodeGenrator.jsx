@@ -23,9 +23,9 @@ function QRCodeGen() {
   };
 
   return (
-    <Box bgcolor="lightblue" flex={5} p={2}>
+    <Box bgcolor="#d1cebd" flex={5} p={2}>
       <Typography
-        variant="h1"
+        variant="h2"
         sx={{ display: "flex", justifyContent: "center" }}
       >
         QR Code
@@ -37,7 +37,7 @@ function QRCodeGen() {
       >
         <Stack spacing={2}>
           <Box component="img" mt={5} src={src} sx={{ width: "100%" }}></Box>
-          <Button variant="contained" onClick={downloadImage}>
+          <Button variant="contained" sx={{background: "#ff5722", '&:hover': {backgroundColor: '#ff3c00'}}} onClick={downloadImage}>
             Download QR
           </Button>
         </Stack>
