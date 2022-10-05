@@ -11,6 +11,8 @@ import RequireAuth from '../utils/requireAuth';
 import { CUSTOMER } from "../utils/RolesList";
 import QRCodeView from "../views/customer/QRCode";
 import VehicleDetails from "../views/customer/VehicleDetails";
+import AccountDetails from "../views/customer/ViewAccountDetails";
+
 import RequestFuel from "../views/customer/RequestFuel";
 
 export function Router() {
@@ -27,6 +29,7 @@ export function Router() {
         <Route path="/customer/registerVehicle" element={<RequireAuth allowedRoles={[CUSTOMER]}><RegisterVehicle /></RequireAuth>} />
         <Route path="/customer/viewVehicle/:vid" element={<RequireAuth allowedRoles={[CUSTOMER]}><VehicleDetails /></RequireAuth>} />
         <Route path="/customer/qrcode" element={<RequireAuth allowedRoles={[CUSTOMER]}><QRCodeView /></RequireAuth>} />
+        <Route path="/customer/viewAccount" element={<AccountDetails/>} />
         <Route exact path='*' element={<NoPage />} />
       </Routes>
     </BrowserRouter>

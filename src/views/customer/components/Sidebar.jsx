@@ -62,7 +62,7 @@ const Sidebar = () => {
         <Divider component="li" />
         {/* button to view the account details of the customer */}
         <ListItem disablePadding>
-          <ListItemButton component="a" href="/">
+          <ListItemButton component="a" href="/customer/viewAccount">
             <ListItemIcon>
               <AccountBox />
             </ListItemIcon>
