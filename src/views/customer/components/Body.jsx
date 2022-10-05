@@ -26,10 +26,6 @@ const Body = () => {
       <Typography variant='h2' sx={{ display: "flex", justifyContent: "center"}}>
         {username}
       </Typography>
-      <Typography variant='h2' sx={{ display: "flex", justifyContent: "center"}}>
-        {username}
-      </Typography>
-      {props.children}
     </Box>
   )
 }

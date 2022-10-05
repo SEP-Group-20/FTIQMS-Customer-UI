@@ -16,7 +16,7 @@ const AccountDetailsView= () => {
           overflow="auto"
         >
           <Sidebar />
-          <Body>  <AccountDetails/></Body>
+          <AccountDetails/>
         
         </Stack>
       </Box>
