@@ -46,7 +46,7 @@ function VehicleDetails() {
       <Navbar/>
       <Stack direction="row" justifyContent="space-between" flex={1} overflow="auto">
         <Sidebar />
-        <Box bgcolor="lightblue" flex={5} p={2} >
+        <Box bgcolor="#d1cebd" flex={5} p={2} >
           <Box bgcolor="white" flex={5} p={3} sx={{ borderRadius: '9px' }}>
             {errMsg !== "" ? (
               // error
@@ -58,74 +58,101 @@ function VehicleDetails() {
               <>
                 <List>
                   <ListItem>
-                    <Typography variant='h6' display="inline" width="50%">
-                      Registration Number :
+                    <Typography variant='h6' display="inline" width="50%" mr={2}>
+                      Registration Number
                     </Typography>
-                    <Typography display="inline">
+                    <Typography variant='h6' display="inline">
+                      :
+                    </Typography>
+                    <Typography display="inline" ml={2}>
                       {vehicleDetails.registrationNumber}
                     </Typography>
                   </ListItem>
                   <ListItem>
-                    <Typography variant='h6' display="inline" width="50%">
-                      Chassis Number :
+                    <Typography variant='h6' display="inline" width="50%" mr={2}>
+                      Chassis Number
                     </Typography>
-                    <Typography display="inline">
+                    <Typography variant='h6' display="inline">
+                      :
+                    </Typography>
+                    <Typography display="inline" ml={2}>
                       {vehicleDetails.chassisNumber}
                     </Typography>
                   </ListItem>
                   <ListItem>
-                    <Typography variant='h6' display="inline" width="50%">
-                      Vehicle Make :
+                    <Typography variant='h6' display="inline" width="50%" mr={2}>
+                      Vehicle Make
                     </Typography>
-                    <Typography display="inline">
+                    <Typography variant='h6' display="inline">
+                      :
+                    </Typography>
+                    <Typography display="inline" ml={2}>
                       {vehicleDetails.make}
                     </Typography>
                   </ListItem>
                   <ListItem>
-                    <Typography variant='h6' display="inline" width="50%">
-                      Vehicle Model :
+                    <Typography variant='h6' display="inline" width="50%" mr={2}>
+                      Vehicle Model
                     </Typography>
-                    <Typography display="inline">
+                    <Typography variant='h6' display="inline">
+                      :
+                    </Typography>
+                    <Typography display="inline" ml={2}>
                       {vehicleDetails.model}
                     </Typography>
                   </ListItem>
                   <ListItem>
-                    <Typography variant='h6' display="inline" width="50%">
-                      Vehicle Owner :
+                    <Typography variant='h6' display="inline" width="50%" mr={2}>
+                      Vehicle Owner
                     </Typography>
-                    <Typography display="inline">
+                    <Typography variant='h6' display="inline">
+                      :
+                    </Typography>
+                    <Typography display="inline" ml={2}>
                       {vehicleDetails.owner}
                     </Typography>
                   </ListItem>
                   <ListItem>
-                    <Typography variant='h6' display="inline" width="50%">
-                      Fuel :
+                    <Typography variant='h6' display="inline" width="50%" mr={2}>
+                      Fuel
                     </Typography>
-                    <Typography display="inline">
+                    <Typography variant='h6' display="inline">
+                      :
+                    </Typography>
+                    <Typography display="inline" ml={2}>
                       {vehicleDetails.fuelType}
                     </Typography>
                   </ListItem>
                   <ListItem>
-                    <Typography variant='h6' display="inline" width="50%">
-                      Vehicle Type :
+                    <Typography variant='h6' display="inline" width="50%" mr={2}>
+                      Vehicle Type
                     </Typography>
-                    <Typography display="inline">
+                    <Typography variant='h6' display="inline">
+                      :
+                    </Typography>
+                    <Typography display="inline" ml={2}>
                       {vehicleDetails.vehicleType}
                     </Typography>
                   </ListItem>
                   <ListItem>
-                    <Typography variant='h6' display="inline" width="50%">
-                      Requested Fuel :
+                    <Typography variant='h6' display="inline" width="50%" mr={2}>
+                      Requested Fuel
                     </Typography>
-                    <Typography display="inline">
+                    <Typography variant='h6' display="inline">
+                      :
+                    </Typography>
+                    <Typography display="inline" ml={2}>
                       {vehicleDetails.isQueued? "Yes": "No"}
                     </Typography>
                   </ListItem>
                   <ListItem>
-                    <Typography variant='h6' display="inline" width="50%">
-                      Number of Fuel Availability Notifications Sent :
+                    <Typography variant='h6' display="inline" width="50%" mr={2}>
+                      Number of Fuel Availability Notifications Sent
                     </Typography>
-                    <Typography display="inline">
+                    <Typography variant='h6' display="inline">
+                      :
+                    </Typography>
+                    <Typography display="inline" ml={2}>
                       {vehicleDetails.notificationsSent}
                     </Typography>
                   </ListItem>
