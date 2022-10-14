@@ -23,6 +23,7 @@ export function Router() {
         <Route exact path="/register" element={<Register />} />
         <Route exact path='/login' element={<Login />} />
         <Route exact path='/contact' element={<Contact />} />
+
         <Route path="/customer/home" element={<RequireAuth allowedRoles={[CUSTOMER]}><CustomerHome /></RequireAuth>} />
         <Route path="/customer/myVehicles" element={<RequireAuth allowedRoles={[CUSTOMER]}><MyVehicles /></RequireAuth>} />
         <Route path="/customer/requestFuel" element={<RequireAuth allowedRoles={[CUSTOMER]}><RequestFuel /></RequireAuth>} />
@@ -30,6 +31,7 @@ export function Router() {
         <Route path="/customer/viewVehicle/:vid" element={<RequireAuth allowedRoles={[CUSTOMER]}><VehicleDetails /></RequireAuth>} />
         <Route path="/customer/qrcode" element={<RequireAuth allowedRoles={[CUSTOMER]}><QRCodeView /></RequireAuth>} />
         <Route path="/customer/viewAccount" element={<AccountDetails/>} />
+        
         <Route exact path='*' element={<NoPage />} />
       </Routes>
     </BrowserRouter>

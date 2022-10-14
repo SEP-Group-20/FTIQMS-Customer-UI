@@ -34,7 +34,7 @@ function VehicleList() {
 
     // create the card with the relevant details
     return (
-      <Card variant="outlined"  sx={{ minWidth: 275, marginBottom: 2, backgroundColor: "#f5f4f0"}}>
+      <Card variant="outlined"  sx={{ minWidth: 275, marginBottom: 2, backgroundColor: "#f5f4f0"}} key={registrationNumber}>
         <CardContent sx={{ paddingBottom: 0}} >
           <Typography variant="h4" component="div">
             {registrationNumber}

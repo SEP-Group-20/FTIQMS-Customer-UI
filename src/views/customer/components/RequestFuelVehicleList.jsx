@@ -6,6 +6,7 @@ import { useAuth } from '../../../utils/auth'
 
 function RequestFuelVehicleList() {
   const [vehicleDetails, setVehicleDetails] = useState([]);
+  const [fuelRequestVehicle, setFuelRequestVehicle] = useState("");
   const [fuelDetails, setFuelDetails] = useState([]);
   const [errMsg, setErrMsg] = useState("");
   const [open, setOpen] = useState(false);
@@ -13,11 +14,19 @@ function RequestFuelVehicleList() {
 
   const userNIC = auth().user.NIC; // get the NIC of the logged in customer
 
-  const handleClickOpen = () => {
+  const handleClickOpen = (e) => {
+    setFuelRequestVehicle(e.target.id);
     setOpen(true);
   };
 
-  const handleClose = () => {
+  const handleFuelRequest = () => {
+    console.log(fuelRequestVehicle)
+    // send fuel request to backend
+    setFuelRequestVehicle("")
+    setOpen(false);
+  };
+
+  const handleCancel = () => {
     setOpen(false);
   };
 
@@ -82,7 +91,7 @@ function RequestFuelVehicleList() {
 
     // create the card with the relevant details
     return (
-      <Card variant="outlined"  sx={{ minWidth: 275, marginBottom: 2, backgroundColor: "#f5f4f0"}}>
+      <Card variant="outlined"  sx={{ minWidth: 275, marginBottom: 2, backgroundColor: "#f5f4f0"}} key={registrationNumber}>
         <CardContent sx={{ paddingBottom: 0}} >
           <Typography variant="h4" component="div">
             {registrationNumber}
@@ -101,6 +110,7 @@ function RequestFuelVehicleList() {
             }}
             m={4}
             startIcon={<LocalGasStation />}
+            id = {registrationNumber}
             onClick={handleClickOpen}
             disabled={setDisabled(fuelType, fuelRequested)}
           >
@@ -140,7 +150,6 @@ function RequestFuelVehicleList() {
           {/* reuqest fuel from vehicle popup when the request fuel button is clicked */}
           <Dialog
             open={open}
-            onClose={handleClose}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
           >
@@ -155,8 +164,8 @@ function RequestFuelVehicleList() {
             </DialogContentText>
             </DialogContent>
             <DialogActions>
-            <Button variant="contained" color="success" onClick={handleClose}>Request</Button>
-            <Button variant="contained" onClick={handleClose} autoFocus>
+            <Button variant="contained" color="success" onClick={handleFuelRequest}>Request</Button>
+            <Button variant="contained" onClick={handleCancel} autoFocus>
                 Cancel
             </Button>
             </DialogActions>
