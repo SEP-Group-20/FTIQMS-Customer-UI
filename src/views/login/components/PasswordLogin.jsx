@@ -65,8 +65,10 @@ export default function PasswordLogin() {
         setErrMsg("Invalid NIC, password pair!");
       } else if (err.response?.status === 500) {
         setErrMsg("Server Error! Try again later.");
-      } else {
+      } else if(err.response){
         setErrMsg("No server response!");
+      }else{
+        setErrMsg("Something went wrong!")
       }
     }
   };

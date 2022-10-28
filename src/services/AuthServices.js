@@ -14,6 +14,7 @@ const registerCustomer = (formData) => {
     return axios({
         method: "post",
         url: APIEndPoint + "/register",
+        withoutToken:true,
         data: formData,
     });
 };
@@ -21,6 +22,7 @@ const loginCustomer = (formData) => {
     return axios({
         method: "post",
         url: APIEndPoint + "/customerLogin",
+        withoutToken:true,
         data: formData,
     });
 };

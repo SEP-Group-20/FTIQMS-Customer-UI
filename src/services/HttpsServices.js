@@ -14,6 +14,11 @@ const axiosInstance = Axios.create({
 });
 
 axiosInstance.interceptors.request.use(async (req) => {
+    if(req.withoutToken){
+        delete req.withoutToken;
+        return req
+    };
+
     if (!bearer_token) {
         bearer_token = Token.getAccessToken();
         req.headers.Authorization = `Bearer ${bearer_token}`
