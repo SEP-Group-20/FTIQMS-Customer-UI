@@ -65,9 +65,6 @@ export default function Home() {
     return (
         <Box bgcolor="#d1cebd" flex={5} p={2} >
           <Box bgcolor="white" flex={5} p={3} sx={{ borderRadius: '9px' }}>
-                <Typography component="h2" variant="h5" color='primary' sx={{mt: 2, fontWeight: 'bold', fontSize: '1.5rem', textAlign: 'center'}}>
-                    ACCOUNT DETAILS
-                </Typography>
             
                 <Grid container spacing={2} sx={{mt: '1.5vw'}}>
                     <Grid item xs={12} md={4} sx={{fontSize: '1.2rem', fontWeight: 'bold'}}>

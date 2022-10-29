@@ -5,6 +5,7 @@ import VehicleList from './components/VehicleList';
 import { Box, Stack } from '@mui/system';
 import { Fab, Tooltip } from '@mui/material';
 import { Add } from '@mui/icons-material';
+import Topbar from './components/Topbar';
 
 const MyVehicles = () => {
   return (
@@ -12,8 +13,11 @@ const MyVehicles = () => {
       <Navbar/>
       <Stack direction="row" justifyContent="space-between" flex={1} overflow="auto">
         <Sidebar />
-        {/* vehicle list */}
-        <VehicleList />
+        <Stack direction="column" justifyContent="space-between" flex={1} overflow="auto">
+          <Topbar heading="My Vehicles" goto="/customer/home"/>
+          {/* vehicle list */}
+          <VehicleList />
+        </Stack>
       </Stack>
       <div>
         {/* add vehicle button */}

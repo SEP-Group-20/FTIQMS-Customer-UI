@@ -10,4 +10,12 @@ const getUserName = (formData) => {
     });
 };
 
-export {getUserName};
+const getUser = (formData) => {
+    return axios({
+        method: "post",
+        url: APIEndPoint + "/getUserByNIC",
+        data: formData,
+    });
+}
+
+export {getUserName, getUser};
