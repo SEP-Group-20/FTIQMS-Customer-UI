@@ -42,4 +42,19 @@ const registerVehicle = (formData) => {
     });
 };
 
-export {isVehicleRegistered, isVehicleReal, getVehicleDetailsDMT, getVehicleDetails, registerVehicle};
+const assignVehicleToFuelQueue = (formData) => {
+    return axios({
+        method: "post",
+        url: APIEndPoint + "/assignFuelQueue",
+        data: formData,
+    });
+}
+
+export {
+    isVehicleRegistered,
+    isVehicleReal,
+    getVehicleDetailsDMT,
+    getVehicleDetails,
+    registerVehicle,
+    assignVehicleToFuelQueue
+};

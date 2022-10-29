@@ -17,6 +17,7 @@ import { authentication } from "../../../services/firebaseService";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { useAuth } from '../../../utils/auth'
 import { getVehicleDetailsDMT, isVehicleReal, isVehicleRegistered, registerVehicle } from "../../../services/vehicleServices";
+import { getUser } from "../../../services/UserService";
 
 const REGISTRATION_REGEX = /^(?:[a-zA-Z]{1,3}|(?!0*-)[0-9]{1,3})(-| )[0-9]{4}(?<!0{4})$/;
 
@@ -76,6 +77,7 @@ function RegisterVehicleForm() {
   const [fuel, setFuel] = useState("");
   const [fuelAllocationCategory, setFuelAllocationCategory] = useState("");
   const [fuelAllocation, setFuelAllocation] = useState("");
+  const [registeredUnder, setRegisteredUnder] = useState("");
 
   const [buttonText, setButtonText] = useState("Register")
 
@@ -112,7 +114,7 @@ function RegisterVehicleForm() {
 
   useEffect(() => {
     setErrMsg("");
-  }, [registrationNumber, chassisNumber, OTP, owner, vehicleMake, vehicleModel, vehicleType, fuel, fuelAllocationCategory, fuelAllocation]);
+  }, [registrationNumber, chassisNumber, OTP, owner, vehicleMake, vehicleModel, vehicleType, fuel, fuelAllocationCategory, fuelAllocation, registeredUnder]);
 
   useEffect(() => {
     setChecked((prev) => !prev);
@@ -165,6 +167,7 @@ function RegisterVehicleForm() {
         .then(async (result) => {
           // OTP verified. Get vehicle details from DMT
           const vehicleDetails_Status = await getVehicleDetailsDMT({ registrationNumber: registrationNumber, chassisNumber: chassisNumber });
+          const customerDetails = await getUser({NIC: userNIC});
 
           // populate the form fields
           if (vehicleDetails_Status.data.success) {
@@ -176,6 +179,7 @@ function RegisterVehicleForm() {
             setFuel(vehicleDetails.fuelType);
             setFuelAllocationCategory(vehicleDetails.fuelAllocationCategory);
             setFuelAllocation(vehicleDetails.fuelAllocation);
+            setRegisteredUnder(customerDetails.data.user._id);
             setOTPStatus(true);
             return;
           }
@@ -196,7 +200,8 @@ function RegisterVehicleForm() {
         model: vehicleModel,
         fuelType: fuel,
         vehicleType: fuelAllocationCategory,
-        fuelAllocation
+        fuelAllocation,
+        registeredUnder
       });
 
       if (resOfReg.status===201){

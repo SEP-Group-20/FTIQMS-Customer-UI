@@ -24,12 +24,6 @@ function QRCodeGen() {
 
   return (
     <Box bgcolor="#d1cebd" flex={5} p={2}>
-      <Typography
-        variant="h2"
-        sx={{ display: "flex", justifyContent: "center" }}
-      >
-        QR Code
-      </Typography>
       <Container
         component="main"
         maxWidth="xs"

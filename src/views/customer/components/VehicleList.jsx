@@ -54,9 +54,6 @@ function VehicleList() {
 
   return (
     <Box bgcolor="#d1cebd" flex={5} p={2} >
-      <Typography variant='h2' mb={3} sx={{ display: "flex", justifyContent: "center"}}>
-        Registered Vehicles
-      </Typography>
       {/* display alert if not vehicles are registered in the account of the customer */}
       {vehicleDetails.length === 0 ?
         // no registered vehicles in the account of the customer
