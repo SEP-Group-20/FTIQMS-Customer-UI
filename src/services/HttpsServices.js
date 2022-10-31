@@ -41,7 +41,7 @@ axiosInstance.interceptors.request.use(async (req) => {
             // refresh token in cookie get the request
             const response = await Axios({
                 method: "get",
-                url: config.DOMAIN_NAME + `/api/auth/refresh/${user.userInfo.role}`,
+                url: config.DOMAIN_NAME + `/api/auth/refresh/${user.role}`,
                 // credentials true
                 withCredentials: true,
             })
