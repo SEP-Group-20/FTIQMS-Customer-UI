@@ -14,7 +14,7 @@ const axiosInstance = Axios.create({
 });
 
 axiosInstance.interceptors.request.use(async (req) => {
-    if(req.withoutToken){
+    if (req.withoutToken) {
         delete req.withoutToken;
         return req
     };
@@ -45,13 +45,13 @@ axiosInstance.interceptors.request.use(async (req) => {
                 // credentials true
                 withCredentials: true,
             })
-            console.log("response :", response);
+            // console.log("response :", response);
 
             Token.removeAccessToken();
 
             bearer_token = response.data.access_token;
             Token.setAccessToken(response.data.access_token);
-
+            console.log("Refreshed!");
             req.headers.Authorization = `Bearer ${bearer_token}`;
         } catch (err) {
             Token.removeAccessToken();
