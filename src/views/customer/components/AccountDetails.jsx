@@ -28,7 +28,7 @@ function selectType(type){
 
 
 
-export default function Home() {
+export default function AccountDetails() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
