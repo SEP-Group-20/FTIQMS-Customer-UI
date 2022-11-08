@@ -14,6 +14,7 @@ import VehicleDetails from "../views/customer/VehicleDetails";
 import AccountDetails from "../views/customer/ViewAccountDetails";
 
 import RequestFuel from "../views/customer/RequestFuel";
+import FuelStations from "../views/customer/FuelStations";
 
 export function Router() {
   return (
@@ -25,6 +26,7 @@ export function Router() {
         <Route exact path='/contact' element={<Contact />} />
 
         <Route path="/customer/home" element={<RequireAuth allowedRoles={[CUSTOMER]}><CustomerHome /></RequireAuth>} />
+        <Route path="/customer/fuelStations" element={<RequireAuth allowedRoles={[CUSTOMER]}><FuelStations /></RequireAuth>} />
         <Route path="/customer/myVehicles" element={<RequireAuth allowedRoles={[CUSTOMER]}><MyVehicles /></RequireAuth>} />
         <Route path="/customer/requestFuel" element={<RequireAuth allowedRoles={[CUSTOMER]}><RequestFuel /></RequireAuth>} />
         <Route path="/customer/registerVehicle" element={<RequireAuth allowedRoles={[CUSTOMER]}><RegisterVehicle /></RequireAuth>} />
