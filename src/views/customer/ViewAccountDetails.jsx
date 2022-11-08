@@ -5,7 +5,7 @@ import { Box, Stack } from "@mui/system";
 import AccountDetails from './components/AccountDetails'
 import Topbar from "./components/Topbar";
 
-const AccountDetailsView= () => {
+const AccountDetailsView= () => { //account details
   return (
     <Box display="flex" flexDirection="column" sx={{ minHeight: "100vh" }}>
       <Navbar />
