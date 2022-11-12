@@ -16,6 +16,7 @@ import {
   styled,
 } from "@mui/material";
 import React from "react";
+import EditLocationIcon from '@mui/icons-material/EditLocation';
 
 const FullSideBar = styled(Box)(({ theme }) => ({
   display: "none",
@@ -79,6 +80,16 @@ const Sidebar = () => {
               </ListItemButton>
             </ListItem>
             <Divider component="li" />
+            {/* button to view the selected fuel stations */}
+            <ListItem disablePadding>
+              <ListItemButton component="a" href="/customer/fuelStations">
+                <ListItemIcon>
+                  <EditLocationIcon />
+                </ListItemIcon>
+                <ListItemText primary="Fuel Stations" />
+              </ListItemButton>
+            </ListItem>
+            <Divider component="li" />
             {/* button to view the account details of the customer */}
             <ListItem disablePadding>
               <ListItemButton component="a" href="/customer/viewAccount">
@@ -125,6 +136,15 @@ const Sidebar = () => {
               <ListItemButton component="a" href="/customer/qrcode" sx={{padding: 1}}>
                 <ListItemIcon sx={{minWidth: "24px"}}>
                   <QrCode />
+                </ListItemIcon>
+              </ListItemButton>
+            </ListItem>
+            <Divider component="li" />
+             {/* button to view the selected fuel stations to get fuel*/}
+             <ListItem disablePadding>
+              <ListItemButton component="a" href="/customer/fuelStations" sx={{padding: 1}}>
+                <ListItemIcon sx={{minWidth: "24px"}}>
+                  <EditLocationIcon />
                 </ListItemIcon>
               </ListItemButton>
             </ListItem>

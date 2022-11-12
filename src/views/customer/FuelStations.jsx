@@ -2,6 +2,7 @@ import React from "react";
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 import { Box, Stack } from "@mui/system";
+import SelectedStations from "./components/SelectedStations";
 
 const FuelStations = () => {
   return (
@@ -14,6 +15,7 @@ const FuelStations = () => {
         overflow="auto"
       >
         <Sidebar />
+        <SelectedStations />
       </Stack>
     </Box>
   );
