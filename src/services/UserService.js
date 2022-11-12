@@ -18,4 +18,11 @@ const getUser = (formData) => {
     });
 }
 
-export {getUserName, getUser};
+const getUserDetails = () => {
+    return axios({
+        method: "get",
+        url: APIEndPoint + "/getUserDetails",
+    });
+}
+
+export {getUserName, getUser,getUserDetails};
