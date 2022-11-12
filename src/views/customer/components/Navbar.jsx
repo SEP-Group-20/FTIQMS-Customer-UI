@@ -101,7 +101,7 @@ const Navbar = () => {
           horizontal: "right",
         }}
       >
-        <MenuItem component="a" href="#">
+        <MenuItem component="a" href="/customer/viewAccount">
           Profile
         </MenuItem>
         <MenuItem component="a" onClick={logoutCustomer}>
