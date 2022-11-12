@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
 import { Box, Stack } from '@mui/system';
-import { Alert, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, List, ListItem, Typography } from '@mui/material';
+import { Alert, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid} from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { getVehicleDetails } from '../../services/vehicleServices';
 import { Delete } from '@mui/icons-material';
@@ -60,107 +60,73 @@ function VehicleDetails() {
                 ) : 
                   // if no error display the detials of the vehicle
                   <>
-                    <List>
-                      <ListItem>
-                        <Typography variant='h6' display="inline" width="50%" mr={2}>
-                          Registration Number
-                        </Typography>
-                        <Typography variant='h6' display="inline">
-                          :
-                        </Typography>
-                        <Typography display="inline" ml={2}>
-                          {vehicleDetails.registrationNumber}
-                        </Typography>
-                      </ListItem>
-                      <ListItem>
-                        <Typography variant='h6' display="inline" width="50%" mr={2}>
-                          Chassis Number
-                        </Typography>
-                        <Typography variant='h6' display="inline">
-                          :
-                        </Typography>
-                        <Typography display="inline" ml={2}>
-                          {vehicleDetails.chassisNumber}
-                        </Typography>
-                      </ListItem>
-                      <ListItem>
-                        <Typography variant='h6' display="inline" width="50%" mr={2}>
-                          Vehicle Make
-                        </Typography>
-                        <Typography variant='h6' display="inline">
-                          :
-                        </Typography>
-                        <Typography display="inline" ml={2}>
-                          {vehicleDetails.make}
-                        </Typography>
-                      </ListItem>
-                      <ListItem>
-                        <Typography variant='h6' display="inline" width="50%" mr={2}>
-                          Vehicle Model
-                        </Typography>
-                        <Typography variant='h6' display="inline">
-                          :
-                        </Typography>
-                        <Typography display="inline" ml={2}>
-                          {vehicleDetails.model}
-                        </Typography>
-                      </ListItem>
-                      <ListItem>
-                        <Typography variant='h6' display="inline" width="50%" mr={2}>
-                          Vehicle Owner
-                        </Typography>
-                        <Typography variant='h6' display="inline">
-                          :
-                        </Typography>
-                        <Typography display="inline" ml={2}>
-                          {vehicleDetails.owner}
-                        </Typography>
-                      </ListItem>
-                      <ListItem>
-                        <Typography variant='h6' display="inline" width="50%" mr={2}>
-                          Fuel
-                        </Typography>
-                        <Typography variant='h6' display="inline">
-                          :
-                        </Typography>
-                        <Typography display="inline" ml={2}>
-                          {vehicleDetails.fuelType}
-                        </Typography>
-                      </ListItem>
-                      <ListItem>
-                        <Typography variant='h6' display="inline" width="50%" mr={2}>
-                          Vehicle Type
-                        </Typography>
-                        <Typography variant='h6' display="inline">
-                          :
-                        </Typography>
-                        <Typography display="inline" ml={2}>
-                          {vehicleDetails.vehicleType}
-                        </Typography>
-                      </ListItem>
-                      <ListItem>
-                        <Typography variant='h6' display="inline" width="50%" mr={2}>
-                          Requested Fuel
-                        </Typography>
-                        <Typography variant='h6' display="inline">
-                          :
-                        </Typography>
-                        <Typography display="inline" ml={2}>
-                          {vehicleDetails.isQueued? "Yes": "No"}
-                        </Typography>
-                      </ListItem>
-                      <ListItem>
-                        <Typography variant='h6' display="inline" width="50%" mr={2}>
-                          Number of Fuel Availability Notifications Sent
-                        </Typography>
-                        <Typography variant='h6' display="inline">
-                          :
-                        </Typography>
-                        <Typography display="inline" ml={2}>
-                          {vehicleDetails.notificationsSent}
-                        </Typography>
-                      </ListItem>
-                    </List>
+                    <Grid container spacing={3} marginLeft={0} marginTop={0}>
+
+                      <Grid item xs={12} md={6} sx={{fontSize: '1.3rem', fontWeight: 'bold'}}>
+                        Registration Number
+                      </Grid>
+                      <Grid item xs={12} md={6} sx={{fontSize: '1.2rem'}}>
+                        {vehicleDetails.registrationNumber}
+                      </Grid>
+
+                      <Grid item xs={12} md={6} sx={{fontSize: '1.3rem', fontWeight: 'bold'}}>
+                        Chassis Number
+                      </Grid>
+                      <Grid item xs={12} md={6} sx={{fontSize: '1.2rem'}}>
+                        {vehicleDetails.chassisNumber}
+                      </Grid>
+                      
+                      <Grid item xs={12} md={6} sx={{fontSize: '1.3rem', fontWeight: 'bold'}}>
+                        Vehicle Make
+                      </Grid>
+                      <Grid item xs={12} md={6} sx={{fontSize: '1.2rem'}}>
+                        {vehicleDetails.make}
+                      </Grid>
+
+                      <Grid item xs={12} md={6} sx={{fontSize: '1.3rem', fontWeight: 'bold'}}>
+                        Vehicle Model
+                      </Grid>
+                      <Grid item xs={12} md={6} sx={{fontSize: '1.2rem'}}>
+                        {vehicleDetails.model}
+                      </Grid>
+
+                      <Grid item xs={12} md={6} sx={{fontSize: '1.3rem', fontWeight: 'bold'}}>
+                        Vehicle Owner
+                      </Grid>
+                      <Grid item xs={12} md={6} sx={{fontSize: '1.2rem'}}>
+                        {vehicleDetails.owner}
+                      </Grid>
+
+                      <Grid item xs={12} md={6} sx={{fontSize: '1.3rem', fontWeight: 'bold'}}>
+                        Fuel
+                      </Grid>
+                      <Grid item xs={12} md={6} sx={{fontSize: '1.2rem'}}>
+                        {vehicleDetails.fuelType}
+                      </Grid>
+
+                      <Grid item xs={12} md={6} sx={{fontSize: '1.3rem', fontWeight: 'bold'}}>
+                        Vehicle Type
+                      </Grid>
+                      <Grid item xs={12} md={6} sx={{fontSize: '1.2rem'}}>
+                        {vehicleDetails.vehicleType}
+                      </Grid>
+
+                      <Grid item xs={12} md={6} sx={{fontSize: '1.3rem', fontWeight: 'bold'}}>
+                        Requested Fuel
+                      </Grid>
+                      <Grid item xs={12} md={6} sx={{fontSize: '1.2rem'}}>
+                        {vehicleDetails.isQueued? "Yes": "No"}
+                      </Grid>
+
+                      <Grid item xs={12} md={6} sx={{fontSize: '1.3rem', fontWeight: 'bold'}}>
+                        Number of Fuel Availability Notifications Sent
+                      </Grid>
+                      <Grid item xs={12} md={6} sx={{fontSize: '1.2rem'}}>
+                        {vehicleDetails.notificationsSent}
+                      </Grid>
+
+                    </Grid>
+
                     {/* remove vehicle button */}
                     <Box textAlign='center' mt={4}>
                       <Button variant="outlined" color="error" m={4} startIcon={<Delete />} onClick={handleClickOpen}>
