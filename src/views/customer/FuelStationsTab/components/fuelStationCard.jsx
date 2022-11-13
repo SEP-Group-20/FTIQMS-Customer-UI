@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import { getFuelStationById } from "../../../../services/fuelStationServices";
 import { Grid } from "@mui/material";
 
-export default function FuelStationCard({ fuelStationId }) {
+export default function FuelStationCard({ fuelStationId, dropHandler }) {
   const [station, setStation] = useState(null);
 
   useEffect(() => {
@@ -51,6 +51,7 @@ export default function FuelStationCard({ fuelStationId }) {
                   size="small"
                   variant="outlined"
                   color="error"
+                  onClick={() => dropHandler(station._id)}
                 >
                   Drop
                 </Button>
