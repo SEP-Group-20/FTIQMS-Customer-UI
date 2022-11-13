@@ -1,6 +1,5 @@
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -9,8 +8,7 @@ import LocalGasStationIcon from "@mui/icons-material/LocalGasStation";
 import { Stack } from "@mui/system";
 import { useEffect, useState } from "react";
 import { getFuelStationById } from "../../../../services/fuelStationServices";
-import { dividerClasses, Grid } from "@mui/material";
-import { grey } from "@mui/material/colors";
+import { Grid } from "@mui/material";
 
 export default function FuelStationCard({ fuelStationId }) {
   const [station, setStation] = useState(null);
@@ -26,7 +24,7 @@ export default function FuelStationCard({ fuelStationId }) {
   return (
     <>
       {station ? (
-        <Card sx={{ minWidth: 275, backgroundColor: "#C6C6C6" }}>
+        <Card sx={{ minWidth: 275, backgroundColor: "#DCDCDC" }}>
           <CardContent>
             <Stack direction="row" spacing={2}>
               <LocalGasStationIcon />
