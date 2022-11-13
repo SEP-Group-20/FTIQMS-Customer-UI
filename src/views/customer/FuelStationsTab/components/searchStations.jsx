@@ -19,7 +19,7 @@ function SearchStations({ handleSelection }) {
     if (reason === "selectOption") {
       console.log(val);
       //do whatever you want
-      handleSelection(val);
+      handleSelection(val._id);
 
       setSelectedOption(null);
       searchField.current.blur();

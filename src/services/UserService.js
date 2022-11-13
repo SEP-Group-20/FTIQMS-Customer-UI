@@ -18,4 +18,21 @@ const getUser = (formData) => {
     });
 }
 
-export {getUserName, getUser};
+const getUserFuelStations = () => {
+    return axios({
+        method: "get",
+        url: APIEndPoint + "/getSelectedFuelStations",
+    });
+}
+
+
+const setUserFuelStations = (formData) => {
+    return axios({
+        method: "post",
+        url: APIEndPoint + "/setSelectedFuelStations",
+        data: formData,
+    });
+}
+
+
+export { getUserName, getUser, getUserFuelStations, setUserFuelStations };
