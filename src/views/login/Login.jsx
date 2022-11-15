@@ -7,6 +7,7 @@ import Box from "@mui/material/Box";
 import { Container } from "@mui/material";
 import PasswordLogin from "./components/PasswordLogin";
 import OTPLogin from "./components/OTPLogin";
+import PreLoginAppBar from "../../components/PreLoginAppBar";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -37,7 +38,7 @@ TabPanel.propTypes = {
 function a11yProps(index) {
   return {
     id: `full-width-tab-${index}`,
-    'aria-controls': `full-width-tabpanel-${index}`,
+    "aria-controls": `full-width-tabpanel-${index}`,
   };
 }
 
@@ -49,26 +50,29 @@ export default function Login() {
   };
 
   return (
-    <Container component="main" maxWidth="xs" >
-      <Box sx={{ width: "100%" }} mt={4}>
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            variant="fullWidth"
-            aria-label="full width tabs example"
-          >
-            <Tab label="Password Method" {...a11yProps(0)} />
-            <Tab label="OTP Method" {...a11yProps(1)} />
-          </Tabs>
+    <>
+      <PreLoginAppBar />
+      <Container component="main" maxWidth="xs">
+        <Box sx={{ width: "100%" }} mt={4}>
+          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              variant="fullWidth"
+              aria-label="full width tabs example"
+            >
+              <Tab label="Password Method" {...a11yProps(0)} />
+              <Tab label="OTP Method" {...a11yProps(1)} />
+            </Tabs>
+          </Box>
+          <TabPanel value={value} index={0}>
+            <PasswordLogin />
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            <OTPLogin />
+          </TabPanel>
         </Box>
-        <TabPanel value={value} index={0}>
-          <PasswordLogin/>
-        </TabPanel>
-        <TabPanel value={value} index={1}>
-          <OTPLogin/>
-        </TabPanel>
-      </Box>
-    </Container>
+      </Container>
+    </>
   );
 }

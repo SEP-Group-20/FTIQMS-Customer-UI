@@ -15,12 +15,14 @@ import AccountDetails from "../views/customer/ViewAccountDetails";
 
 import RequestFuel from "../views/customer/RequestFuel";
 import FuelStations from "../views/customer/FuelStationsTab/FuelStations";
+import Home from "../views/Home/Home";
 
 export function Router() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route exact path='/' element={<Login />} />
+        <Route exact path='/' element={<Home />} />
+        <Route exact path='/Home' element={<Home />} />
         <Route exact path="/register" element={<Register />} />
         <Route exact path='/login' element={<Login />} />
         <Route exact path='/contact' element={<Contact />} />

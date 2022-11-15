@@ -1,12 +1,12 @@
 import PreLoginAppBar from "../../components/PreLoginAppBar";
 
-function Contact() {
+function Home() {
   return (
     <>
       <PreLoginAppBar />
-      <h1>Contact us Here..</h1>
+      <h1>Here is the landing page..</h1>
     </>
   );
 }
 
-export default Contact;
+export default Home;
