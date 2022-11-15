@@ -65,10 +65,10 @@ export default function PasswordLogin() {
         setErrMsg("Invalid NIC, password pair!");
       } else if (err.response?.status === 500) {
         setErrMsg("Server Error! Try again later.");
-      } else if(err.response){
+      } else if (err.response) {
         setErrMsg("No server response!");
-      }else{
-        setErrMsg("Something went wrong!")
+      } else {
+        setErrMsg("Something went wrong!");
       }
     }
   };
@@ -93,7 +93,9 @@ export default function PasswordLogin() {
           </Typography>
           {errMsg != "" ? (
             <Stack sx={{ width: "100%" }} spacing={2}>
-              <Alert severity="error">{errMsg}</Alert>
+              <Alert severity="error" data-testid="error-alert">
+                {errMsg}
+              </Alert>
             </Stack>
           ) : null}
           <Box
