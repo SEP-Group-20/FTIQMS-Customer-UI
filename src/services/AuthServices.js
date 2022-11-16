@@ -1,6 +1,6 @@
 import axios from './HttpsServices';
 
-const APIEndPoint = "http://localhost:3001/api/auth";
+const APIEndPoint = "/api/auth";
 
 const checkNICExistance = (formData) => {
     return axios({
@@ -14,7 +14,7 @@ const registerCustomer = (formData) => {
     return axios({
         method: "post",
         url: APIEndPoint + "/register",
-        withoutToken:true,
+        withoutToken: true,
         data: formData,
     });
 };
@@ -22,7 +22,7 @@ const loginCustomer = (formData) => {
     return axios({
         method: "post",
         url: APIEndPoint + "/customerLogin",
-        withoutToken:true,
+        withoutToken: true,
         data: formData,
     });
 };
@@ -47,4 +47,4 @@ const logoutBackend = () => {
     });
 };
 
-export {checkNICExistance,registerCustomer,loginCustomer,getMobileByNIC,validateFirebaseToken,logoutBackend};
+export { checkNICExistance, registerCustomer, loginCustomer, getMobileByNIC, validateFirebaseToken, logoutBackend };
