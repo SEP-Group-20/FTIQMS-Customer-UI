@@ -26,4 +26,12 @@ const getRemainingFuel = (formData) => {
     });
 };
 
-export { getCustomerDetails, getAllRegisteredVehicleDetails, getRemainingFuel };
+const resetPassword = (formData) => {
+    return axios({
+        method: "post",
+        url: APIEndPoint + "/resetPassword",
+        data: formData,
+    });
+};
+
+export { getCustomerDetails, getAllRegisteredVehicleDetails, getRemainingFuel, resetPassword };
