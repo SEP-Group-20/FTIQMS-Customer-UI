@@ -50,29 +50,37 @@ export default function Login() {
   };
 
   return (
-    <>
+    <Box display="flex" flexDirection="column" sx={{height: '100vh'}}>
       <PreLoginAppBar />
-      <Container component="main" maxWidth="xs">
-        <Box sx={{ width: "100%" }} mt={4}>
-          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-            <Tabs
-              value={value}
-              onChange={handleChange}
-              variant="fullWidth"
-              aria-label="full width tabs example"
-            >
-              <Tab label="Password Method" {...a11yProps(0)} />
-              <Tab label="OTP Method" {...a11yProps(1)} />
-            </Tabs>
+      <div
+        style={{
+          backgroundImage: `url("https://images.pexels.com/photos/9216590/pexels-photo-9216590.jpeg?cs=srgb&dl=pexels-erik-mclean-9216590.jpg&fm=jpg&_gl=1*b55um7*_ga*NjE4NDcwNTA3LjE2Njg1MzM4MTY.*_ga_8JE65Q40S6*MTY2ODUzMzgxNy4xLjEuMTY2ODUzMzk5MS4wLjAuMA..")`,
+          backgroundSize: "100%",
+          height: "100vh"
+        }}
+      >
+        <Container component="main" maxWidth="xs">
+          <Box sx={{ width: "100%", borderRadius: "15px", backgroundColor: `rgba(255, 255, 255, 0.8)`}} mt={4}>
+            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+              <Tabs
+                value={value}
+                onChange={handleChange}
+                variant="fullWidth"
+                aria-label="full width tabs example"
+              >
+                <Tab label="Password Method" {...a11yProps(0)} />
+                <Tab label="OTP Method" {...a11yProps(1)} />
+              </Tabs>
+            </Box>
+            <TabPanel value={value} index={0}>
+              <PasswordLogin />
+            </TabPanel>
+            <TabPanel value={value} index={1}>
+              <OTPLogin />
+            </TabPanel>
           </Box>
-          <TabPanel value={value} index={0}>
-            <PasswordLogin />
-          </TabPanel>
-          <TabPanel value={value} index={1}>
-            <OTPLogin />
-          </TabPanel>
-        </Box>
-      </Container>
-    </>
+        </Container>
+      </div>
+    </Box >
   );
 }
