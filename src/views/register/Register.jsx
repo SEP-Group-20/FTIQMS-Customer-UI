@@ -99,12 +99,6 @@ function Register() {
     setValildLName(result);
   }, [lastName]);
 
-  const [checked, setChecked] = React.useState(true);
-
-  useEffect(() => {
-    setChecked((prev) => !prev);
-  }, []);
-
   /*This handle submit funtion is called when submit button is hit */
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -207,205 +201,195 @@ function Register() {
         }}
       >
         <PreLoginAppBar />
-
-        <Slide
-          direction={checked ? "up" : "down"}
-          in={checked}
-          mountOnEnter
-          unmountOnExit
-        >
-          <div>
-            <ThemeProvider theme={theme}>
-              <Container component="main" maxWidth="xs">
-                <CssBaseline />
+        <div>
+          <ThemeProvider theme={theme}>
+            <Container component="main" maxWidth="xs">
+              <CssBaseline />
+              <Box
+                sx={{
+                  marginTop: 8,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  backgroundColor: `rgba(255, 255, 255, 0.8)`,
+                  padding: "20px",
+                  borderRadius: "15px",
+                }}
+              >
+                <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+                  <LockOutlinedIcon />
+                </Avatar>
+                <Typography component="h1" variant="h5">
+                  Register
+                </Typography>
+                {errMsg != "" ? (
+                  <Stack sx={{ width: "100%" }} spacing={2}>
+                    <Alert severity="error">{errMsg}</Alert>
+                  </Stack>
+                ) : null}
                 <Box
-                  sx={{
-                    marginTop: 8,
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    backgroundColor: `rgba(255, 255, 255, 0.8)`,
-                    padding: "20px",
-                    borderRadius: "15px",
-                  }}
+                  component="form"
+                  noValidate
+                  onSubmit={handleSubmit}
+                  sx={{ mt: 3 }}
                 >
-                  <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-                    <LockOutlinedIcon />
-                  </Avatar>
-                  <Typography component="h1" variant="h5">
-                    Register
-                  </Typography>
-                  {errMsg != "" ? (
-                    <Stack sx={{ width: "100%" }} spacing={2}>
-                      <Alert severity="error">{errMsg}</Alert>
-                    </Stack>
-                  ) : null}
-                  <Box
-                    component="form"
-                    noValidate
-                    onSubmit={handleSubmit}
-                    sx={{ mt: 3 }}
-                  >
-                    <Grid container spacing={2}>
-                      <Grid item xs>
-                        <TextField
-                          required
-                          fullWidth
-                          id="nic"
-                          label="NIC"
-                          name="nic"
-                          autoComplete="nic"
-                          disabled={NICStatus ? true : false}
-                          onChange={handleNICChange}
-                          error={!NICValidity ? true : false}
-                          autoFocus
-                        />
+                  <Grid container spacing={2}>
+                    <Grid item xs>
+                      <TextField
+                        required
+                        fullWidth
+                        id="nic"
+                        label="NIC"
+                        name="nic"
+                        autoComplete="nic"
+                        disabled={NICStatus ? true : false}
+                        onChange={handleNICChange}
+                        error={!NICValidity ? true : false}
+                        autoFocus
+                      />
+                    </Grid>
+                    {NICStatus ? (
+                      <Grid item xs={1}>
+                        <CheckCircleOutlineIcon sx={{ color: "#17B505" }} />
                       </Grid>
-                      {NICStatus ? (
-                        <Grid item xs={1}>
-                          <CheckCircleOutlineIcon sx={{ color: "#17B505" }} />
-                        </Grid>
-                      ) : null}
+                    ) : null}
 
-                      {NICStatus ? (
-                        <>
-                          <Grid item xs>
-                            <TextField
-                              required
-                              fullWidth
-                              id="mobile"
-                              type="tel"
-                              label="Mobile"
-                              name="mobile"
-                              autoComplete="mobile"
-                              autoFocus
-                              disabled={mobileStatus ? true : false}
-                              error={!mobileValidity ? true : false}
-                              onChange={handleMobileChange}
-                            />
-                          </Grid>
-                          {OTPStatus ? (
-                            <Grid item xs={1}>
-                              <CheckCircleOutlineIcon
-                                sx={{ color: "#17B505" }}
-                              />
-                            </Grid>
-                          ) : null}
-                        </>
-                      ) : null}
-                      {mobileStatus && !OTPStatus ? (
-                        <>
-                          <Grid item xs={12}>
-                            <p>We send and verification code to your number</p>
-                          </Grid>
-                          <Grid item xs={12}>
-                            <TextField
-                              required
-                              fullWidth
-                              id="otp"
-                              label="Verification Code"
-                              name="otp"
-                              autoFocus
-                              autoComplete="number"
-                              onChange={(e) => setOTP(e.target.value)}
-                            />
-                          </Grid>
-                        </>
-                      ) : null}
-                      {OTPStatus ? (
-                        <Grid container mt={2} spacing={2}>
-                          <Grid item xs>
-                            <TextField
-                              required
-                              autoFocus
-                              fullWidth
-                              id="firstName"
-                              label="First Name"
-                              name="firstName"
-                              autoComplete="firstName"
-                              onChange={(e) => setFirstName(e.target.value)}
-                              error={!validFName && firstName ? true : false}
-                            />
-                          </Grid>
-                          <Grid item xs>
-                            <TextField
-                              required
-                              fullWidth
-                              id="lastName"
-                              label="Last Name"
-                              name="lastName"
-                              autoComplete="lastName"
-                              onChange={(e) => setLastName(e.target.value)}
-                              error={!validLName && lastName ? true : false}
-                            />
-                          </Grid>
-                          <Grid item xs={12}>
-                            <TextField
-                              required
-                              fullWidth
-                              type="password"
-                              id="pwd"
-                              label="Password"
-                              name="password"
-                              autoComplete="password"
-                              onChange={(e) => setPwd(e.target.value)}
-                              error={!validPwd && pwd ? true : false}
-                            />
-                          </Grid>
-                          <Grid item xs={12}>
-                            <TextField
-                              required
-                              fullWidth
-                              type="password"
-                              id="cnfrm"
-                              label="Confirm Password"
-                              name="confirm"
-                              autoComplete="password"
-                              onChange={(e) => setCnfrm(e.target.value)}
-                              error={!validCnfrm && cnfrm ? true : false}
-                            />
-                          </Grid>
+                    {NICStatus ? (
+                      <>
+                        <Grid item xs>
+                          <TextField
+                            required
+                            fullWidth
+                            id="mobile"
+                            type="tel"
+                            label="Mobile"
+                            name="mobile"
+                            autoComplete="mobile"
+                            autoFocus
+                            disabled={mobileStatus ? true : false}
+                            error={!mobileValidity ? true : false}
+                            onChange={handleMobileChange}
+                          />
                         </Grid>
-                      ) : null}
-                    </Grid>
-                    <Button
-                      type="submit"
-                      fullWidth
-                      variant="contained"
-                      sx={{ mt: 3, mb: 2 }}
-                      disabled={
-                        !NICValidity ||
-                        !NIC ||
-                        (NICStatus && (!mobileValidity || !mobile)) ||
-                        (mobileStatus && !OTP) ||
-                        (OTPStatus &&
-                          (!firstName ||
-                            !pwd ||
-                            !cnfrm ||
-                            !validCnfrm ||
-                            !validPwd ||
-                            !validFName ||
-                            (lastName && !validLName)))
-                          ? true
-                          : false
-                      }
-                    >
-                      CONTINUE
-                    </Button>
-                    <Grid container justifyContent="flex-end">
-                      <Grid item>
-                        <Link href="/login" variant="body2">
-                          Already have an account? Sign in
-                        </Link>
+                        {OTPStatus ? (
+                          <Grid item xs={1}>
+                            <CheckCircleOutlineIcon sx={{ color: "#17B505" }} />
+                          </Grid>
+                        ) : null}
+                      </>
+                    ) : null}
+                    {mobileStatus && !OTPStatus ? (
+                      <>
+                        <Grid item xs={12}>
+                          <p>We send and verification code to your number</p>
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            required
+                            fullWidth
+                            id="otp"
+                            label="Verification Code"
+                            name="otp"
+                            autoFocus
+                            autoComplete="number"
+                            onChange={(e) => setOTP(e.target.value)}
+                          />
+                        </Grid>
+                      </>
+                    ) : null}
+                    {OTPStatus ? (
+                      <Grid container mt={2} spacing={2}>
+                        <Grid item xs>
+                          <TextField
+                            required
+                            autoFocus
+                            fullWidth
+                            id="firstName"
+                            label="First Name"
+                            name="firstName"
+                            autoComplete="firstName"
+                            onChange={(e) => setFirstName(e.target.value)}
+                            error={!validFName && firstName ? true : false}
+                          />
+                        </Grid>
+                        <Grid item xs>
+                          <TextField
+                            required
+                            fullWidth
+                            id="lastName"
+                            label="Last Name"
+                            name="lastName"
+                            autoComplete="lastName"
+                            onChange={(e) => setLastName(e.target.value)}
+                            error={!validLName && lastName ? true : false}
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            required
+                            fullWidth
+                            type="password"
+                            id="pwd"
+                            label="Password"
+                            name="password"
+                            autoComplete="password"
+                            onChange={(e) => setPwd(e.target.value)}
+                            error={!validPwd && pwd ? true : false}
+                          />
+                        </Grid>
+                        <Grid item xs={12}>
+                          <TextField
+                            required
+                            fullWidth
+                            type="password"
+                            id="cnfrm"
+                            label="Confirm Password"
+                            name="confirm"
+                            autoComplete="password"
+                            onChange={(e) => setCnfrm(e.target.value)}
+                            error={!validCnfrm && cnfrm ? true : false}
+                          />
+                        </Grid>
                       </Grid>
+                    ) : null}
+                  </Grid>
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2 }}
+                    disabled={
+                      !NICValidity ||
+                      !NIC ||
+                      (NICStatus && (!mobileValidity || !mobile)) ||
+                      (mobileStatus && !OTP) ||
+                      (OTPStatus &&
+                        (!firstName ||
+                          !pwd ||
+                          !cnfrm ||
+                          !validCnfrm ||
+                          !validPwd ||
+                          !validFName ||
+                          (lastName && !validLName)))
+                        ? true
+                        : false
+                    }
+                  >
+                    CONTINUE
+                  </Button>
+                  <Grid container justifyContent="flex-end">
+                    <Grid item>
+                      <Link href="/login" variant="body2">
+                        Already have an account? Sign in
+                      </Link>
                     </Grid>
-                    <div id="recapcha-container"></div>
-                  </Box>
+                  </Grid>
+                  <div id="recapcha-container"></div>
                 </Box>
-              </Container>
-            </ThemeProvider>
-          </div>
-        </Slide>
+              </Box>
+            </Container>
+          </ThemeProvider>
+        </div>
       </div>
     </>
   );
