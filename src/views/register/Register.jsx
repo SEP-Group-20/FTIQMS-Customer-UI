@@ -128,6 +128,7 @@ function Register() {
           })
           .catch((error) => {
             setErrMsg("couldn't send the OTP!");
+            console.log(error);
           });
       } else if (!OTPStatus) {
         const code = OTP;
