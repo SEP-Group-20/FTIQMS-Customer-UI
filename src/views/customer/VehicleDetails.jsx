@@ -27,6 +27,28 @@ function VehicleDetails() {
     setOpen(false);
   };
 
+  const handleRemove = async () => {
+    console.log("remove");
+    console.log("vid",vid);
+    setOpen(false);
+
+    // const res = await resetPassword({userNIC: userNIC, oldPassword: oldPassword, newPassword: newPassword});
+      
+    // if (!res.data.success)
+    //   setPassErrMsg(res.data.message);
+    // else {
+    //   setSuccess(true);
+    //   setModalOpen(true);
+    //   setTimeout(function () {
+    //     setSuccess(false);
+    //     setModalOpen(false);
+    //     setOldPassword("");
+    //     setNewPassword("");
+    //     setConfirmNewPassword("");
+    //   }, 2000);
+    // }
+  }
+
   // get details of the registered vehicles of the customer
   useEffect(() => {
     async function fetchVehicleDetails() {
@@ -151,7 +173,7 @@ function VehicleDetails() {
                         </DialogContentText>
                       </DialogContent>
                       <DialogActions>
-                        <Button variant="contained" color="error" onClick={handleClose}>Remove</Button>
+                        <Button variant="contained" color="error" onClick={handleRemove}>Remove</Button>
                         <Button variant="contained" onClick={handleClose} autoFocus>
                           Cancel
                         </Button>
