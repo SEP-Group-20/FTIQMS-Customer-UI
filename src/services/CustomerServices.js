@@ -1,6 +1,6 @@
 import axios from './HttpsServices';
 
-const APIEndPoint = "http://localhost:3001/api/customer";
+const APIEndPoint = "/api/customer";
 
 const getCustomerDetails = (formData) => {
     return axios({
@@ -26,4 +26,4 @@ const getRemainingFuel = (formData) => {
     });
 };
 
-export {getCustomerDetails, getAllRegisteredVehicleDetails, getRemainingFuel};
+export { getCustomerDetails, getAllRegisteredVehicleDetails, getRemainingFuel };

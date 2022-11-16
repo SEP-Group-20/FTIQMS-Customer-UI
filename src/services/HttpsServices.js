@@ -9,7 +9,7 @@ let bearer_token = Token.getAccessToken();
 
 const axiosInstance = Axios.create({
     withCredentials: true,
-    baseURL: "http://localhost:3001",
+    baseURL: "https://ftiqms-server.onrender.com",
     headers: { Authorization: `Bearer ${bearer_token}` }
 });
 

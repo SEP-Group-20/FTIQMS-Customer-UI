@@ -1,6 +1,6 @@
 import axios from './HttpsServices';
 
-const APIEndPoint = "http://localhost:3001/api/fuelStation";
+const APIEndPoint = "/api/fuelStation";
 
 
 const getAllFuelStations = () => {

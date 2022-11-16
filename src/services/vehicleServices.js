@@ -1,6 +1,6 @@
 import axios from './HttpsServices';
 
-const APIEndPoint = "http://localhost:3001/api/vehicle";
+const APIEndPoint = "/api/vehicle";
 
 const isVehicleRegistered = (formData) => {
     return axios({
