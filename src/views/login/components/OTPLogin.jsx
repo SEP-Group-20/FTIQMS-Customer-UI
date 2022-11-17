@@ -20,24 +20,6 @@ import {
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../utils/auth";
 
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
-
 const theme = createTheme();
 
 export default function OTPLogin() {
@@ -153,6 +135,7 @@ export default function OTPLogin() {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            paddingBottom: "20px",
           }}
         >
           <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
@@ -211,8 +194,7 @@ export default function OTPLogin() {
               Continue
             </Button>
             <Grid container>
-              <Grid item xs={12}>
-              </Grid>
+              <Grid item xs={12}></Grid>
               <Grid item>
                 <Link href="/register" variant="body2">
                   {"Don't have an account? Sign Up"}
@@ -222,7 +204,6 @@ export default function OTPLogin() {
             <div id="recapcha-container"></div>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
   );
