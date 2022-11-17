@@ -16,6 +16,7 @@ import AccountDetails from "../views/customer/ViewAccountDetails";
 import RequestFuel from "../views/customer/RequestFuel";
 import FuelStations from "../views/customer/FuelStationsTab/FuelStations";
 import Home from "../views/Home/Home";
+import ForgotPWD from "../views/login/components/ForgotPassword";
 
 export function Router() {
   return (
@@ -25,6 +26,7 @@ export function Router() {
         <Route exact path='/Home' element={<Home />} />
         <Route exact path="/register" element={<Register />} />
         <Route exact path='/login' element={<Login />} />
+        <Route exact path='/forgotPwd' element={<ForgotPWD />} />
         <Route exact path='/contact' element={<Contact />} />
 
         <Route path="/customer/home" element={<RequireAuth allowedRoles={[CUSTOMER]}><CustomerHome /></RequireAuth>} />
