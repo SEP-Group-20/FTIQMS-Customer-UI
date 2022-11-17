@@ -50,11 +50,20 @@ const assignVehicleToFuelQueue = (formData) => {
     });
 }
 
+const removeVehicle = (formData) => {
+    return axios({
+        method: "post",
+        url: APIEndPoint + "/removeVehicle",
+        data: formData,
+    });
+}
+
 export {
     isVehicleRegistered,
     isVehicleReal,
     getVehicleDetailsDMT,
     getVehicleDetails,
     registerVehicle,
-    assignVehicleToFuelQueue
+    assignVehicleToFuelQueue,
+    removeVehicle
 };

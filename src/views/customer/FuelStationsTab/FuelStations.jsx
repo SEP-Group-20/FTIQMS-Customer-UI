@@ -90,7 +90,7 @@ const FuelStations = () => {
       >
         <Sidebar />
         <Stack sx={{ border: "2px solid black", padding: "4px" }} spacing={2}>
-          <Typography variant="body1" align="center">
+          <Typography variant="h5" align="center">
             Selected Fuel Stations
           </Typography>
           <Divider />
@@ -109,7 +109,7 @@ const FuelStations = () => {
           )}
 
           <Divider />
-          <Typography variant="body1" align="center">
+          <Typography variant="h5" align="center">
             Search fuel Stations
           </Typography>
           <SearchStations handleSelection={fuelStationSelectionHandler} />

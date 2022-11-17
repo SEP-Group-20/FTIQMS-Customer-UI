@@ -18,7 +18,7 @@ function Map() {
     <GoogleMap
       zoom={8}
       center={{ lat: 8.0, lng: 80.1 }}
-      mapContainerStyle={{ width: "100%", height: "85vh" }}
+      mapContainerStyle={{ width: "100%", height: "88vh" }}
     ></GoogleMap>
   );
 }
