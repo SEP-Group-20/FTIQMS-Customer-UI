@@ -18,24 +18,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { loginCustomer } from "../../../services/AuthServices";
 import { useAuth } from "../../../utils/auth";
 
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
-
 const theme = createTheme();
 
 export default function PasswordLogin() {
@@ -65,10 +47,10 @@ export default function PasswordLogin() {
         setErrMsg("Invalid NIC, password pair!");
       } else if (err.response?.status === 500) {
         setErrMsg("Server Error! Try again later.");
-      } else if(err.response){
+      } else if (err.response) {
         setErrMsg("No server response!");
-      }else{
-        setErrMsg("Something went wrong!")
+      } else {
+        setErrMsg("Something went wrong!");
       }
     }
   };
@@ -93,7 +75,9 @@ export default function PasswordLogin() {
           </Typography>
           {errMsg != "" ? (
             <Stack sx={{ width: "100%" }} spacing={2}>
-              <Alert severity="error">{errMsg}</Alert>
+              <Alert severity="error" data-testid="error-alert">
+                {errMsg}
+              </Alert>
             </Stack>
           ) : null}
           <Box
@@ -139,7 +123,7 @@ export default function PasswordLogin() {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link href="/forgotPwd" variant="body2">
                   Forgot password?
                 </Link>
               </Grid>
@@ -151,7 +135,6 @@ export default function PasswordLogin() {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
   );

@@ -1,6 +1,6 @@
 import axios from './HttpsServices';
 
-const APIEndPoint = "http://localhost:3001/api/vehicle";
+const APIEndPoint = "/api/vehicle";
 
 const isVehicleRegistered = (formData) => {
     return axios({
@@ -50,11 +50,20 @@ const assignVehicleToFuelQueue = (formData) => {
     });
 }
 
+const removeVehicle = (formData) => {
+    return axios({
+        method: "post",
+        url: APIEndPoint + "/removeVehicle",
+        data: formData,
+    });
+}
+
 export {
     isVehicleRegistered,
     isVehicleReal,
     getVehicleDetailsDMT,
     getVehicleDetails,
     registerVehicle,
-    assignVehicleToFuelQueue
+    assignVehicleToFuelQueue,
+    removeVehicle
 };

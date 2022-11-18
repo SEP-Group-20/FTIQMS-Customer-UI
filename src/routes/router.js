@@ -14,15 +14,19 @@ import VehicleDetails from "../views/customer/VehicleDetails";
 import AccountDetails from "../views/customer/ViewAccountDetails";
 
 import RequestFuel from "../views/customer/RequestFuel";
-import FuelStations from "../views/customer/FuelStations";
+import FuelStations from "../views/customer/FuelStationsTab/FuelStations";
+import Home from "../views/Home/Home";
+import ForgotPWD from "../views/login/components/ForgotPassword";
 
 export function Router() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route exact path='/' element={<Login />} />
+        <Route exact path='/' element={<Home />} />
+        <Route exact path='/Home' element={<Home />} />
         <Route exact path="/register" element={<Register />} />
         <Route exact path='/login' element={<Login />} />
+        <Route exact path='/forgotPwd' element={<ForgotPWD />} />
         <Route exact path='/contact' element={<Contact />} />
 
         <Route path="/customer/home" element={<RequireAuth allowedRoles={[CUSTOMER]}><CustomerHome /></RequireAuth>} />
@@ -32,8 +36,8 @@ export function Router() {
         <Route path="/customer/registerVehicle" element={<RequireAuth allowedRoles={[CUSTOMER]}><RegisterVehicle /></RequireAuth>} />
         <Route path="/customer/viewVehicle/:vid" element={<RequireAuth allowedRoles={[CUSTOMER]}><VehicleDetails /></RequireAuth>} />
         <Route path="/customer/qrcode" element={<RequireAuth allowedRoles={[CUSTOMER]}><QRCodeView /></RequireAuth>} />
-        <Route path="/customer/viewAccount" element={<AccountDetails/>} />
-        
+        <Route path="/customer/viewAccount" element={<AccountDetails />} />
+
         <Route exact path='*' element={<NoPage />} />
       </Routes>
     </BrowserRouter>

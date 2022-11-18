@@ -20,32 +20,14 @@ import { authentication } from "../../services/firebaseService";
 import { checkNICExistance } from "../../services/AuthServices";
 import { registerCustomer } from "../../services/AuthServices";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+import PreLoginAppBar from "../../components/PreLoginAppBar";
 
 const PWD_REGEX =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
 const NAME_REGEX = /^[a-z ,.'-]+$/i;
 const MOBILE_REGEX =
   /^(?:(?:\+|0{0,2})91(\s*[\ -]\s*)?|[0]?)?[456789]\d{8}|(\d[ -]?){8}\d$/;
-const NIC_REGEX =
-  /^([0-9]{9}[x|X|v|V]|[0-9]{12})$/;
-
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+const NIC_REGEX = /^([0-9]{9}[x|X|v|V]|[0-9]{12})$/;
 
 const theme = createTheme();
 
@@ -117,12 +99,6 @@ function Register() {
     setValildLName(result);
   }, [lastName]);
 
-  const [checked, setChecked] = React.useState(true);
-
-  useEffect(() => {
-    setChecked((prev) => !prev);
-  }, []);
-
   /*This handle submit funtion is called when submit button is hit */
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -152,6 +128,7 @@ function Register() {
           })
           .catch((error) => {
             setErrMsg("couldn't send the OTP!");
+            console.log(error);
           });
       } else if (!OTPStatus) {
         const code = OTP;
@@ -217,12 +194,14 @@ function Register() {
 
   return (
     <>
-      <Slide
-        direction={checked ? "up" : "down"}
-        in={checked}
-        mountOnEnter
-        unmountOnExit
+      <div
+        style={{
+          backgroundImage: `url("https://images.pexels.com/photos/9216590/pexels-photo-9216590.jpeg?cs=srgb&dl=pexels-erik-mclean-9216590.jpg&fm=jpg&_gl=1*b55um7*_ga*NjE4NDcwNTA3LjE2Njg1MzM4MTY.*_ga_8JE65Q40S6*MTY2ODUzMzgxNy4xLjEuMTY2ODUzMzk5MS4wLjAuMA..")`,
+          backgroundSize: "100%",
+          height: "100vh",
+        }}
       >
+        <PreLoginAppBar />
         <div>
           <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="xs">
@@ -233,6 +212,9 @@ function Register() {
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
+                  backgroundColor: `rgba(255, 255, 255, 0.8)`,
+                  padding: "20px",
+                  borderRadius: "15px",
                 }}
               >
                 <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
@@ -406,11 +388,10 @@ function Register() {
                   <div id="recapcha-container"></div>
                 </Box>
               </Box>
-              <Copyright sx={{ mt: 5 }} />
             </Container>
           </ThemeProvider>
         </div>
-      </Slide>
+      </div>
     </>
   );
 }
