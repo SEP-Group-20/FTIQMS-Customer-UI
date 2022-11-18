@@ -18,24 +18,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { loginCustomer } from "../../../services/AuthServices";
 import { useAuth } from "../../../utils/auth";
 
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
-
 const theme = createTheme();
 
 export default function PasswordLogin() {
@@ -141,7 +123,7 @@ export default function PasswordLogin() {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link href="/forgotPwd" variant="body2">
                   Forgot password?
                 </Link>
               </Grid>
@@ -153,7 +135,6 @@ export default function PasswordLogin() {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
   );

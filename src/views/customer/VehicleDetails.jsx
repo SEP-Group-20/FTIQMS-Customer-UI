@@ -3,8 +3,8 @@ import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
 import { Box, Stack } from '@mui/system';
 import { Alert, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid} from '@mui/material';
-import { useParams } from 'react-router-dom';
-import { getVehicleDetails } from '../../services/vehicleServices';
+import { useNavigate, useParams } from 'react-router-dom';
+import { getVehicleDetails, removeVehicle } from '../../services/vehicleServices';
 import { Delete } from '@mui/icons-material';
 import { useAuth } from '../../utils/auth';
 import Topbar from './components/Topbar';
@@ -17,6 +17,8 @@ function VehicleDetails() {
 
   const {auth} = useAuth();
 
+  const navigate = useNavigate();
+
   const userNIC = auth().user.NIC; // get the NIC of the logged in customer
 
   const handleClickOpen = () => {
@@ -26,6 +28,17 @@ function VehicleDetails() {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const handleRemove = async () => {
+    console.log("remove");
+    console.log("vid",vid);
+    setOpen(false);
+
+    const res = await removeVehicle({vid: vid});
+      
+    if (res.data.success)
+      return navigate('/customer/myVehicles');
+  }
 
   // get details of the registered vehicles of the customer
   useEffect(() => {
@@ -129,7 +142,12 @@ function VehicleDetails() {
 
                     {/* remove vehicle button */}
                     <Box textAlign='center' mt={4}>
-                      <Button variant="outlined" color="error" m={4} startIcon={<Delete />} onClick={handleClickOpen}>
+                      <Button
+                        variant="outlined"
+                        color="error" m={4}
+                        startIcon={<Delete />}
+                        onClick={handleClickOpen}
+                        disabled={vehicleDetails.isQueued}>
                         Remove Vehicle
                       </Button>
                     </Box>
@@ -151,7 +169,7 @@ function VehicleDetails() {
                         </DialogContentText>
                       </DialogContent>
                       <DialogActions>
-                        <Button variant="contained" color="error" onClick={handleClose}>Remove</Button>
+                        <Button variant="contained" color="error" onClick={handleRemove}>Remove</Button>
                         <Button variant="contained" onClick={handleClose} autoFocus>
                           Cancel
                         </Button>

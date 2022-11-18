@@ -3,7 +3,7 @@ import { GoogleMap, useLoadScript } from "@react-google-maps/api";
 
 function SelectedStationsMap() {
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: "AIzaSyDiHGf2cG7mFOUa4-2AXbY4-teME8pfK8Y",
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAP_API_KEY,
   });
   return (
     <Box bgcolor="#d1cebd" flex={5} p={1}>
@@ -18,7 +18,7 @@ function Map() {
     <GoogleMap
       zoom={8}
       center={{ lat: 8.0, lng: 80.1 }}
-      mapContainerStyle={{ width: "100%", height: "85vh" }}
+      mapContainerStyle={{ width: "100%", height: "88vh" }}
     ></GoogleMap>
   );
 }

@@ -1,16 +1,32 @@
 import React, { useEffect, useState } from 'react';
-import Container  from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import { useAuth } from '../../../utils/auth';
-import { getCustomerDetails } from '../../../services/CustomerServices';
+import { getCustomerDetails, resetPassword } from '../../../services/CustomerServices';
 import { Stack } from '@mui/system';
-import { Alert, Divider, TextField } from '@mui/material';
+import { Alert, Divider, Modal, TextField } from '@mui/material';
+import { CheckCircle } from '@mui/icons-material';
 
 const PWD_REGEX =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: "#E8FFEA",
+  border: '4px solid green',
+  boxShadow: 24,
+  borderRadius: '25px',
+  p: 2,
+  display: 'flex',
+  alignItems: 'center',
+  flexDirection: 'column'
+};
 
 function AccountDetails() {
 
@@ -19,7 +35,12 @@ function AccountDetails() {
   const [newPassword, setNewPassword] = useState("");
   const [validNewPassword, setValidNewPassword] = useState(true);
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
+  const [validConfirmNewPassword, setValidConfirmNewPassword] = useState(true);
   const [errMsg, setErrMsg] = useState("");
+  const [passErrMsg, setPassErrMsg] = useState("");
+  const [success, setSuccess] = useState(false)
+  const [open, setOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   
   const {auth} = useAuth();
   
@@ -37,12 +58,38 @@ function AccountDetails() {
     setConfirmNewPassword(e.target.value);
   }
   
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("oldPassword",oldPassword);
-    console.log("newPassword",newPassword);
-    console.log("confirmNewPassword",confirmNewPassword);
+
+    const res = await resetPassword({userNIC: userNIC, oldPassword: oldPassword, newPassword: newPassword});
+      
+    if (!res.data.success)
+      setPassErrMsg(res.data.message);
+    else {
+      setSuccess(true);
+      setModalOpen(true);
+      setTimeout(function () {
+        setSuccess(false);
+        setModalOpen(false);
+        setOldPassword("");
+        setNewPassword("");
+        setConfirmNewPassword("");
+      }, 2000);
+    }
   };
+
+  const handleClose = () => setOpen(false);
+
+  useEffect(() => {
+    setErrMsg("");
+  }, [oldPassword, newPassword, confirmNewPassword]);
+
+  useEffect(() => {
+    const result = PWD_REGEX.test(newPassword);
+    setValidNewPassword(result);
+    const match = newPassword === confirmNewPassword;
+    setValidConfirmNewPassword(match);
+  }, [newPassword, confirmNewPassword]);
 
   // get details of the customer
   useEffect(() => {
@@ -70,6 +117,17 @@ function AccountDetails() {
 
   return (
     <Box bgcolor="#d1cebd" flex={5} p={2} >
+      <Modal
+        open={modalOpen}
+        onClose={handleClose}
+      >
+        <Box sx={style}>
+          <CheckCircle color="success" fontSize="large" position="center"/>
+          <Typography id="registration-success" mt={1} sx={{textAlign: "center"}}>
+            Password Reset successful.
+          </Typography>
+        </Box>
+      </Modal>
       <Box bgcolor="white" flex={5} p={3} sx={{ borderRadius: '9px' }}>
         {errMsg !== "" ? (
           // error
@@ -124,47 +182,61 @@ function AccountDetails() {
               <Grid item xs={12} md={12} sx={{fontSize: '1.3rem', fontWeight: 'bold', marginTop: 2}}>
                 Reset Password
               </Grid>
-
-              <Grid item xs>
-                <TextField
-                  required
-                  fullWidth
-                  id="oldPassword"
-                  label="Old Password"
-                  name="oldPassword"
-                  autoComplete="oldPassword"
-                  onChange={handleOldPasswordChange}
-                  margin="normal"
-                />
-                <TextField
-                  required
-                  fullWidth
-                  id="newPassword"
-                  label="New Password"
-                  name="newPassword"
-                  autoComplete="newPassword"
-                  onChange={handleNewPasswordChange}
-                  margin="normal"
-                />
-                <TextField
-                  required
-                  fullWidth
-                  id="confirmNewPassword"
-                  label="Confirm New Password"
-                  name="confirmNewPassword"
-                  autoComplete="confirmNewPassword"
-                  onChange={handleConfirmNewPasswordChange}
-                  margin="normal"
-                />
-                <Button
-                  type="submit"
-                  variant="contained"
-                  sx={{ mt: 2, mb: 2}}
-                  onClick={handleSubmit}
-                >
-                  Change Password
-                </Button>
-              </Grid>
+              {passErrMsg !== "" ? (
+                  <Stack sx={{ width: "100%" }} spacing={2}>
+                    <Alert severity="error">{passErrMsg}</Alert>
+                  </Stack>
+                ) : 
+                <Grid item xs>
+                  <TextField
+                    required
+                    fullWidth
+                    type="password"
+                    id="oldPassword"
+                    label="Old Password"
+                    name="oldPassword"
+                    autoComplete="oldPassword"
+                    value={oldPassword}
+                    onChange={handleOldPasswordChange}
+                    margin="normal"
+                  />
+                  <TextField
+                    required
+                    fullWidth
+                    type="password"
+                    id="newPassword"
+                    label="New Password"
+                    name="newPassword"
+                    autoComplete="newPassword"
+                    value={newPassword}
+                    onChange={handleNewPasswordChange}
+                    margin="normal"
+                    error={!validNewPassword && newPassword ? true : false}
+                  />
+                  <TextField
+                    required
+                    fullWidth
+                    type="password"
+                    id="confirmNewPassword"
+                    label="Confirm New Password"
+                    name="confirmNewPassword"
+                    autoComplete="confirmNewPassword"
+                    value={confirmNewPassword}
+                    onChange={handleConfirmNewPasswordChange}
+                    margin="normal"
+                    error={!validConfirmNewPassword && confirmNewPassword ? true : false}
+                  />
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    sx={{ mt: 2, mb: 2}}
+                    onClick={handleSubmit}
+                    disabled={!oldPassword || !newPassword || !confirmNewPassword || !validNewPassword || !validConfirmNewPassword ? true : false}
+                  >
+                    Change Password
+                  </Button>
+                </Grid>
+              }
             </Grid>
           </>
         }
