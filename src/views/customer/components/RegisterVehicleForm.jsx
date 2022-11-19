@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Slide from "@mui/material/Slide";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -247,12 +246,6 @@ function RegisterVehicleForm() {
   return (
     <Box bgcolor="#d1cebd" flex={5} p={2} >
       <Box bgcolor="#f5f4f0" flex={5} p={3} sx={{ borderRadius: '9px' }}>
-        <Slide
-          direction={checked ? "up" : "down"}
-          in={checked}
-          mountOnEnter
-          unmountOnExit
-        >
           <div>
             <ThemeProvider theme={theme}>
               <Container component="main" maxWidth="xs">
@@ -428,7 +421,6 @@ function RegisterVehicleForm() {
               </Container>
             </ThemeProvider>
           </div>
-        </Slide>
       </Box>
     </Box>
   );
