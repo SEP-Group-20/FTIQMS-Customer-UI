@@ -1,7 +1,6 @@
 import * as React from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Slide from "@mui/material/Slide";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
