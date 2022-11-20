@@ -114,7 +114,7 @@ const FuelStations = () => {
           </Typography>
           <SearchStations handleSelection={fuelStationSelectionHandler} />
         </Stack>
-        <SelectedStationsMap />
+        <SelectedStationsMap selectionhandler = {fuelStationSelectionHandler}/>
       </Stack>
     </Box>
   );

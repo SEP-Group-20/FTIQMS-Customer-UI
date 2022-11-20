@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import { getFuelStationById } from "../../../../services/fuelStationServices";
 import { Grid } from "@mui/material";
 
-export default function FuelStationCard({ fuelStationId, dropHandler }) {
+export default function FuelStationCard({ fuelStationId, dropHandler, selectHandler }) {
   const [station, setStation] = useState(null);
 
   useEffect(() => {
@@ -45,17 +45,32 @@ export default function FuelStationCard({ fuelStationId, dropHandler }) {
                   <Typography variant="body2">{`${station.mobile}`}</Typography>
                 </Box>
               </Grid>
-              <Grid item xs={4}>
-                <Button
-                  sx={{ marginLeft: "20px" }}
-                  size="small"
-                  variant="outlined"
-                  color="error"
-                  onClick={() => dropHandler(station._id)}
-                >
-                  Drop
-                </Button>
-              </Grid>
+              {dropHandler && (
+                <Grid item xs={4}>
+                  <Button
+                    sx={{ marginLeft: "20px" }}
+                    size="small"
+                    variant="outlined"
+                    color="error"
+                    onClick={() => dropHandler(station._id)}
+                  >
+                    Drop
+                  </Button>
+                </Grid>
+              )}
+              {selectHandler && (
+                <Grid item xs={4}>
+                  <Button
+                    sx={{ marginLeft: "20px" }}
+                    size="small"
+                    variant="outlined"
+                    color="primary"
+                    onClick={() => selectHandler(station._id)}
+                  >
+                    Select
+                  </Button>
+                </Grid>
+              )}
             </Grid>
           </CardContent>
         </Card>
